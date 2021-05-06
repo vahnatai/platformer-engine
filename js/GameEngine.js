@@ -17,7 +17,7 @@ class GameEngine {
 	}
 
 	start() {
-		// const framerate = 1000/GameEngine.FPS;
+		const framerate = 1000/GameEngine.FPS;
 		const dt = 10; // fixed simulation chunk size in milliseconds
 		let accumulator = 0; // store remaining miliseconds (< dt) to simulate after next frame
 		let lastTime = 0;
@@ -59,7 +59,7 @@ class GameEngine {
 				clearInterval(interval);
 				console.error(error);
 			}
-		});   
+		}, framerate);   
 	}
 
 	simulate(dt) {
