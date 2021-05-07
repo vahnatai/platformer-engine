@@ -1,4 +1,5 @@
 import Game from './Game.js';
+import LevelView from './ui/LevelView.js';
 import MapView from './ui/MapView.js';
 
 class GameEngine {
@@ -13,6 +14,7 @@ class GameEngine {
 			up: false,
 			right: false,
 			down: false,
+			choose: false,
 		};
 	}
 
@@ -27,6 +29,7 @@ class GameEngine {
 		controlActions[GameEngine.Controls.UP] = (newState) => {this.controls.up = newState;};
 		controlActions[GameEngine.Controls.RIGHT] = (newState) => {this.controls.right = newState;};
 		controlActions[GameEngine.Controls.DOWN] = (newState) => {this.controls.down = newState;};
+		controlActions[GameEngine.Controls.CHOOSE] = (newState) => {this.controls.choose = newState;};
 
 		function updateControls(keyCode, newState) {
 			const action = controlActions[keyCode];
@@ -62,18 +65,26 @@ class GameEngine {
 		}, framerate);   
 	}
 
+	enterLevel() {
+		const level = this.game.character.getCurrentLevel();
+		this.view = new LevelView(this.window, this.canvas, level, this.game.character);
+	}
+
 	simulate(dt) {
 		// get current available directions
 		const paths = this.game.world.getAllDirections(this.game.character.currentLevel);
 		
 		// handle inputs
-		const pressedKey = Object.keys(this.controls).filter((direction) => Boolean(this.controls[direction]))[0];
+		const pressedKey = Object.keys(this.controls).filter((key) => Boolean(this.controls[key]))[0];
 		this.controls[pressedKey] = false;
 		const dest = paths[pressedKey];
 
 		if (dest) {
 			const {id, x, y} = this.game.world.getLevel(dest.id);
 			this.game.character.startOnVector(x, y, id);
+		}
+		else if (pressedKey === 'choose') {
+			this.enterLevel();
 		}
 
 		// handle simulation
@@ -87,6 +98,7 @@ GameEngine.Controls = {
 	UP: 'ArrowUp',
 	RIGHT: 'ArrowRight',
 	DOWN: 'ArrowDown',
+	CHOOSE: 'Space',
 };
 
 export default GameEngine;

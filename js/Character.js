@@ -15,6 +15,8 @@ class Character {
 
 	getY() {return this.y;}
 
+	getCurrentLevel() {return this.currentLevel;}
+
 	startOnVector(endX, endY, endLevel) {
 		this.destLevel = endLevel;
 		this.currentLevel = null;
