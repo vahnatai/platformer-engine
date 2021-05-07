@@ -10,7 +10,11 @@
         "sourceType": "module"
     },
     "rules": {
-        "indent": [
+        "eol-last": [
+            "error",
+            "always"
+		],
+		"indent": [
             "error",
             "tab"
         ],
