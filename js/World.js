@@ -30,7 +30,7 @@ class World {
 			'1-3': {
 				id: '1-3',
 				x: 700,
-				y: 350,
+				y: 360,
 				paths: [
 					{
 						destination: '1-4',
@@ -48,8 +48,8 @@ class World {
 			},
 			'1-S1': {
 				id: '1-S1',
-				x: 450,
-				y: 350,
+				x: 430,
+				y: 360,
 				isSecret: true,
 				paths: [
 					{
@@ -62,8 +62,8 @@ class World {
 			},
 			'1-4': {
 				id: '1-4',
-				x: 700,
-				y: 200,
+				x: 690,
+				y: 250,
 				paths: [
 					{
 						destination: '1-5',
@@ -76,7 +76,7 @@ class World {
 			'1-5': {
 				id: '1-5',
 				x: 450,
-				y: 200,
+				y: 235,
 				paths: [
 					{
 						destination: '1-6',
@@ -94,8 +94,8 @@ class World {
 			},
 			'1-S2': {
 				id: '1-S2',
-				x: 200,
-				y: 70,
+				x: 240,
+				y: 90,
 				isSecret: true,
 				paths: [
 					{
@@ -109,7 +109,7 @@ class World {
 			'1-6': {
 				id: '1-6',
 				x: 150,
-				y: 350,
+				y: 330,
 				paths: [
 					{
 						destination: '1-7',
@@ -122,7 +122,7 @@ class World {
 			'1-7': {
 				id: '1-7',
 				x: 125,
-				y: 200,
+				y: 220,
 				paths: [],
 			},
 		};

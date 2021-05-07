@@ -1,24 +1,22 @@
-class MapView {
+import View from './View.js';
+
+class MapView extends View {
 	constructor(window, canvas, world, character) {
-		this.window = window;
-		this.canvas = canvas;
-		this.context = canvas.getContext('2d');
+		super(window, canvas);
+		
 		this.world = world;
 		this.character = character;
 		this.sprites = {
+			background: View.loadImage('../map_bg.png'),
 			main: {
-				left: MapView.loadImage('../lildude_l.png'),
-				right: MapView.loadImage('../lildude_r.png'),
+				left: View.loadImage('../lildude_l.png'),
+				right: View.loadImage('../lildude_r.png'),
 			},
 		};
 	}
 
 	renderBackground() {
-		this.context.fillStyle = '#FFFFFF';
-		this.context.strokeStyle = '#550500';
-		this.context.lineWidth = 10;
-		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-		this.context.strokeRect(0, 0, this.canvas.width, this.canvas.height);
+		this.context.drawImage(this.sprites.background, 0, 0);
 	}
 
 	renderLevels() {
@@ -31,7 +29,6 @@ class MapView {
 			this.context.lineWidth = 3;
 
 			this.context.beginPath();
-			// this.context.arc(x, y, 20, 0, 2*Math.PI);
 			this.context.strokeStyle = '#550500';
 			this.context.fillStyle = '#FFFFFF';
 			this.context.ellipse(x, y, 25, 13, 0, 0, 2*Math.PI);
@@ -39,7 +36,6 @@ class MapView {
 			this.context.stroke();
 
 			this.context.beginPath();
-			// this.context.arc(x, y, 20, 0, 2*Math.PI);
 			this.context.fillStyle = '#FFFF00';
 			this.context.ellipse(x, y, 15, 7, 0, 0, 2*Math.PI);
 			this.context.fill();
@@ -56,7 +52,6 @@ class MapView {
 
 	renderPaths() {
 		this.world.getLevels().map(({
-			id,
 			x,
 			y,
 			paths,
@@ -82,17 +77,17 @@ class MapView {
 
 		this.context.beginPath();
 
-		let angle = Math.atan2(dy, dx)
+		let angle = Math.atan2(dy, dx);
 		let x = arrowRadius * Math.cos(angle) + arrowX;
 		let y = arrowRadius * Math.sin(angle) + arrowY;
 		this.context.moveTo(x, y);
 
-		angle += (1.0/3.0) * (2 * Math.PI)
+		angle += (1.0/3.0) * (2 * Math.PI);
 		x = arrowRadius * Math.cos(angle) + arrowX;
 		y = arrowRadius * Math.sin(angle) + arrowY;
 		this.context.lineTo(x, y);
 
-		angle += (1.0/3.0) * (2 * Math.PI)
+		angle += (1.0/3.0) * (2 * Math.PI);
 		x = arrowRadius *Math.cos(angle) + arrowX;
 		y = arrowRadius *Math.sin(angle) + arrowY;
 		this.context.lineTo(x, y);
@@ -140,10 +135,7 @@ class MapView {
 	}
 
 	render () {
-		// this.canvas.width = this.window.innerWidth - 50;
-		// this.canvas.height = this.window.innerHeight - 50;
-		this.canvas.width = MapView.WIDTH;
-		this.canvas.height = MapView.HEIGHT;
+		super.render();
 
 		this.renderBackground();
 		this.renderLevels();
@@ -151,14 +143,5 @@ class MapView {
 		this.renderCharacter();
 	}
 }
-
-MapView.WIDTH = 800;
-MapView.HEIGHT = 600;
-
-MapView.loadImage = (path) => {
-	var image = new Image();
-	image.src = path;
-	return image;
-};
 
 export default MapView;
