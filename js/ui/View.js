@@ -9,6 +9,9 @@ class View {
 		// this.canvas.height = this.window.innerHeight - 50;
 		this.canvas.width = View.WIDTH;
 		this.canvas.height = View.HEIGHT;
+
+		// prevent default menu
+		this.canvas.oncontextmenu = () => false;
 	}
 	render() {
 		this.context.fillStyle = '#FFFFFF';
