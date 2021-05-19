@@ -136,11 +136,15 @@ class MapView extends View {
 
 	render () {
 		super.render();
-
+		
 		this.renderBackground();
 		this.renderLevels();
 		this.renderPaths();
 		this.renderCharacter();
+
+		this.context.strokeStyle = '#550500';
+		this.context.lineWidth = 10;
+		this.context.strokeRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 }
 

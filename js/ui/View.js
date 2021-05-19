@@ -15,10 +15,7 @@ class View {
 	}
 	render() {
 		this.context.fillStyle = '#FFFFFF';
-		this.context.strokeStyle = '#550500';
-		this.context.lineWidth = 10;
 		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-		this.context.strokeRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
 }
