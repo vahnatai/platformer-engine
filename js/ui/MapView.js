@@ -7,10 +7,10 @@ class MapView extends View {
 		this.world = world;
 		this.character = character;
 		this.sprites = {
-			background: View.loadImage('../map_bg.png'),
+			background: View.loadImage('map_bg.png'),
 			main: {
-				left: View.loadImage('../lildude_l.png'),
-				right: View.loadImage('../lildude_r.png'),
+				left: View.loadImage('lildude_l.png'),
+				right: View.loadImage('lildude_r.png'),
 			},
 		};
 	}

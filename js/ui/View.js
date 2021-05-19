@@ -22,7 +22,7 @@ class View {
 
 View.loadImage = (path) => {
 	var image = new Image();
-	image.src = path;
+	image.src = '/assets/images/' + path;
 	return image;
 };
 
