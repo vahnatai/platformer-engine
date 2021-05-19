@@ -18,7 +18,7 @@ class ControlListener {
 	}
 
 	handleInputs() {
-		Object.values(this.keyListeners).forEach((listener) => listener.checkTriggered());
+		Object.values(this.keyListeners).forEach((listener) => listener.checkPressed());
 	}
 }
 
@@ -53,11 +53,12 @@ class ButtonInputListener {
 		this.document.removeEventListener('keyup', this.onKeyUp);
 	}
 
-	checkTriggered() {
-		if (this.isPressed) {
-			this.onPressed();
-			this.isPressed = false;
+	checkPressed() {
+		if (!this.isPressed) {
+			return;
 		}
+		this.onPressed();
+		this.isPressed = false;
 	}
 }
 
