@@ -1,5 +1,5 @@
 import Controller from './Controller.js';
-import Game from './Game.js';
+import Game from './model/Game.js';
 import LevelView from './ui/LevelView.js';
 import MapView from './ui/MapView.js';
 
