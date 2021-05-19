@@ -59,7 +59,11 @@ class GameEngine {
 	}
 
 	enterLevel() {
-		const level = this.game.character.getCurrentLevel();
+		const levelId = this.game.character.getCurrentLevel();
+		if (!levelId) {
+			return;
+		}
+		const level = this.game.world.getLevel(levelId);
 		this.view = new LevelView(this.window, this.canvas, level, this.game.character);
 	}
 

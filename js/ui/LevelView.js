@@ -11,8 +11,13 @@ class LevelView extends View {
 		super.render();
 
 		this.context.lineWidth = 2;
-		this.context.fillStyle = '#444444';
+		this.context.strokeStyle = '#444444';
 		this.context.strokeText('LEVEL VIEW', 375, 300);
+
+		this.context.lineWidth = 1;
+		this.context.strokeStyle = '#000000';
+		this.context.strokeText(JSON.stringify(this.level.id), 390, 400);
+		this.context.strokeText(JSON.stringify(this.level.level.getStartCoords()), 375, 500);
 	}
 }
 

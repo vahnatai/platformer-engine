@@ -1,3 +1,5 @@
+import Level from './Level.js';
+
 class World {
 	constructor () {
 		this.levels = {
@@ -5,6 +7,7 @@ class World {
 				id: '1-1',
 				x: 200,
 				y: 530,
+				level: new Level(),
 				paths: [
 					{
 						destination: '1-2',
@@ -18,6 +21,7 @@ class World {
 				id: '1-2',
 				x: 550,
 				y: 530,
+				level: new Level(),
 				paths: [
 					{
 						destination: '1-3',
@@ -31,6 +35,7 @@ class World {
 				id: '1-3',
 				x: 700,
 				y: 360,
+				level: new Level(),
 				paths: [
 					{
 						destination: '1-4',
@@ -51,6 +56,7 @@ class World {
 				x: 430,
 				y: 360,
 				isSecret: true,
+				level: new Level(),
 				paths: [
 					{
 						destination: '1-5',
@@ -64,6 +70,7 @@ class World {
 				id: '1-4',
 				x: 690,
 				y: 250,
+				level: new Level(),
 				paths: [
 					{
 						destination: '1-5',
@@ -77,6 +84,7 @@ class World {
 				id: '1-5',
 				x: 450,
 				y: 235,
+				level: new Level(),
 				paths: [
 					{
 						destination: '1-6',
@@ -97,6 +105,7 @@ class World {
 				x: 240,
 				y: 90,
 				isSecret: true,
+				level: new Level(),
 				paths: [
 					{
 						destination: '1-7',
@@ -110,6 +119,7 @@ class World {
 				id: '1-6',
 				x: 150,
 				y: 330,
+				level: new Level(),
 				paths: [
 					{
 						destination: '1-7',
@@ -123,21 +133,9 @@ class World {
 				id: '1-7',
 				x: 125,
 				y: 220,
+				level: new Level(),
 				paths: [],
 			},
-		};
-	}
-
-	addLevel(id, x, y, levelData) {
-		if (this.levels[id]) {
-			throw new Error(`A level with ID "${id}" already exists`);
-		}
-		this.levels[id] = {
-			id,
-			x,
-			y,
-			...levelData,
-			paths: [],
 		};
 	}
 
@@ -162,7 +160,7 @@ class World {
 		const {
 			x,
 			y,
-			// levelData, ??
+			level,
 			isSecret,
 			paths,
 		} = this.levels[id];
@@ -171,6 +169,7 @@ class World {
 			id,
 			x,
 			y,
+			level,
 			isSecret,
 			paths: [...paths],
 		};
