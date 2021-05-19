@@ -8,6 +8,10 @@ class Game {
 		this.character = new Character(startX, startY, levelId);
 	}
 
+	simulate(dt) {
+		this.character.computeWorldMovement(dt);
+	}
+
 	getCurrentLevel() {
 		const levelId = this.character.getCurrentLevel();
 		if (!levelId) {

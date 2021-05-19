@@ -63,9 +63,7 @@ class GameEngine {
 
 	simulate(dt) {
 		this.controlListener.handleInputs();
-
-		// handle simulation
-		this.game.character.computeWorldMovement(dt);
+		this.game.simulate(dt);
 	}
 }
 
