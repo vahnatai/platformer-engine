@@ -1,27 +1,27 @@
 {
-  "name": "platformer-engine",
-  "version": "0.0.0",
-  "description": "framework for 2D platform games in html5 canvas",
-  "main": "start.js",
-  "scripts": {
-    "start": "node start.js",
-    "test": "test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/vahnatai/platformer-engine.git"
-  },
-  "author": "vahnatai",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/vahnatai/platformer-engine/issues"
-  },
-  "homepage": "https://github.com/vahnatai/platformer-engine",
-  "dependencies": {
-    "dotenv": "^8.2.0",
-    "mime-types": "^2.1.27"
-  },
-  "devDependencies": {
-    "eslint": "^7.25.0"
-  }
+	"name": "platformer-engine",
+	"version": "0.0.0",
+	"description": "framework for 2D platform games in html5 canvas",
+	"main": "start.js",
+	"scripts": {
+		"start": "node start.js",
+		"test": "test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/vahnatai/platformer-engine.git"
+	},
+	"author": "vahnatai",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/vahnatai/platformer-engine/issues"
+	},
+	"homepage": "https://github.com/vahnatai/platformer-engine",
+	"dependencies": {
+		"dotenv": "^8.2.0",
+		"mime-types": "^2.1.27"
+	},
+	"devDependencies": {
+		"eslint": "^7.25.0"
+	}
 }
