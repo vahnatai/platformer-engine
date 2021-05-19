@@ -11,6 +11,23 @@ class GameEngine {
 		this.mapView = new MapView(window, canvas, this.game.world, this.game.character);
 		this.view = this.mapView;
 		this.controller = new Controller();
+
+		const onDirection = (direction) => {
+			// get current available directions
+			const paths = this.game.world.getAllDirections(this.game.character.currentLevel);
+			const dest = paths[direction];
+
+			if (dest) {
+				const {id, x, y} = this.game.world.getLevel(dest.id);
+				this.game.character.startOnVector(x, y, id);
+			}
+		};
+
+		this.controller.setOnLeft(() => onDirection('left'));
+		this.controller.setOnUp(() => onDirection('up'));
+		this.controller.setOnRight(() => onDirection('right'));
+		this.controller.setOnDown(() => onDirection('down'));
+		this.controller.setOnChoose(() => this.enterLevel());
 	}
 
 	start() {
@@ -19,13 +36,7 @@ class GameEngine {
 		let accumulator = 0; // store remaining miliseconds (< dt) to simulate after next frame
 		let lastTime = 0;
 
-		this.document.onkeydown = (event) => {
-			this.controller.onKeyDown(event);
-		};
-
-		this.document.onkeyup = (event) => {
-			this.controller.onKeyUp(event);
-		};
+		this.controller.registerKeyListeners(document);
 
 		const interval = setInterval(() => {
 			var time = new Date().getTime();
@@ -53,20 +64,7 @@ class GameEngine {
 	}
 
 	simulate(dt) {
-		// get current available directions
-		const paths = this.game.world.getAllDirections(this.game.character.currentLevel);
-		
-		// handle inputs
-		const pressedKey = this.controller.getPressedKey();
-		const dest = paths[pressedKey];
-
-		if (dest) {
-			const {id, x, y} = this.game.world.getLevel(dest.id);
-			this.game.character.startOnVector(x, y, id);
-		}
-		else if (pressedKey === 'choose') {
-			this.enterLevel();
-		}
+		this.controller.handleInputs();
 
 		// handle simulation
 		this.game.character.computeWorldMovement(dt);
