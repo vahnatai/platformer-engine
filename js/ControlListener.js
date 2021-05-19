@@ -4,21 +4,25 @@ class ControlListener {
 		this.keyListeners = {};
 	}
 
-	addListener(name, keyName, document, onPressed) {
+	addKeyListener(name, keyName, document, onPressed) {
 		const listener = new ButtonInputListener(document, keyName, onPressed);
 		this.keyListeners[name] = listener;
 	}
 
+	forEachKeyListener(f) {
+		return Object.values(this.keyListeners).forEach(f);
+	}
+
 	start() {
-		Object.values(this.keyListeners).forEach((listener) => listener.start());
+		this.forEachKeyListener((listener) => listener.start());
 	}
 
 	stop() {
-		Object.values(this.keyListeners).forEach((listener) => listener.stop());
+		this.forEachKeyListener((listener) => listener.stop());
 	}
 
 	handleInputs() {
-		Object.values(this.keyListeners).forEach((listener) => listener.checkPressed());
+		this.forEachKeyListener((listener) => listener.checkPressed());
 	}
 }
 

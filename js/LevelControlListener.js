@@ -4,7 +4,7 @@ class LevelControlListener extends ControlListener {
 	constructor(document, game, exitLevel) {
 		super(document);
 
-		this.addListener('choose', 'Space', document, () => exitLevel());
+		this.addKeyListener('choose', 'Space', document, () => exitLevel());
 	}
 }
 

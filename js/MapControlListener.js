@@ -15,11 +15,11 @@ class MapControlListener extends ControlListener {
 			}
 		};
 
-		this.addListener('left', 'ArrowLeft', document, () => onDirection('left'));
-		this.addListener('up', 'ArrowUp', document, () => onDirection('up'));
-		this.addListener('right', 'ArrowRight', document, () => onDirection('right'));
-		this.addListener('down', 'ArrowDown', document, () => onDirection('down'));
-		this.addListener('choose', 'Space', document, () => enterLevel());
+		this.addKeyListener('left', 'ArrowLeft', document, () => onDirection('left'));
+		this.addKeyListener('up', 'ArrowUp', document, () => onDirection('up'));
+		this.addKeyListener('right', 'ArrowRight', document, () => onDirection('right'));
+		this.addKeyListener('down', 'ArrowDown', document, () => onDirection('down'));
+		this.addKeyListener('choose', 'Space', document, () => enterLevel());
 	}
 }
 
