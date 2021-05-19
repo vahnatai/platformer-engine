@@ -1,3 +1,4 @@
+import Controller from './Controller.js';
 import Game from './Game.js';
 import LevelView from './ui/LevelView.js';
 import MapView from './ui/MapView.js';
@@ -9,13 +10,7 @@ class GameEngine {
 		this.game = new Game();
 		this.mapView = new MapView(window, canvas, this.game.world, this.game.character);
 		this.view = this.mapView;
-		this.controls = {
-			left: false,
-			up: false,
-			right: false,
-			down: false,
-			choose: false,
-		};
+		this.controller = new Controller();
 	}
 
 	start() {
@@ -24,25 +19,12 @@ class GameEngine {
 		let accumulator = 0; // store remaining miliseconds (< dt) to simulate after next frame
 		let lastTime = 0;
 
-		const controlActions = {};
-		controlActions[GameEngine.Controls.LEFT] = (newState) => {this.controls.left = newState;};
-		controlActions[GameEngine.Controls.UP] = (newState) => {this.controls.up = newState;};
-		controlActions[GameEngine.Controls.RIGHT] = (newState) => {this.controls.right = newState;};
-		controlActions[GameEngine.Controls.DOWN] = (newState) => {this.controls.down = newState;};
-		controlActions[GameEngine.Controls.CHOOSE] = (newState) => {this.controls.choose = newState;};
-
-		function updateControls(keyCode, newState) {
-			const action = controlActions[keyCode];
-			if (action) {
-				action(newState);
-			}
-		}
 		this.document.onkeydown = (event) => {
-			updateControls(event.code, true);
+			this.controller.onKeyDown(event);
 		};
 
 		this.document.onkeyup = (event) => {
-			updateControls(event.code, false);
+			this.controller.onKeyUp(event);
 		};
 
 		const interval = setInterval(() => {
@@ -75,8 +57,7 @@ class GameEngine {
 		const paths = this.game.world.getAllDirections(this.game.character.currentLevel);
 		
 		// handle inputs
-		const pressedKey = Object.keys(this.controls).filter((key) => Boolean(this.controls[key]))[0];
-		this.controls[pressedKey] = false;
+		const pressedKey = this.controller.getPressedKey();
 		const dest = paths[pressedKey];
 
 		if (dest) {
@@ -93,12 +74,5 @@ class GameEngine {
 }
 
 GameEngine.FPS = 60;
-GameEngine.Controls = {
-	LEFT: 'ArrowLeft',
-	UP: 'ArrowUp',
-	RIGHT: 'ArrowRight',
-	DOWN: 'ArrowDown',
-	CHOOSE: 'Space',
-};
 
 export default GameEngine;
