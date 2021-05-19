@@ -44,11 +44,10 @@ class GameEngine {
 	}
 
 	enterLevel() {
-		const levelId = this.game.character.getCurrentLevel();
-		if (!levelId) {
+		const level = this.game.getCurrentLevel();
+		if (!level) {
 			return;
 		}
-		const level = this.game.world.getLevel(levelId);
 		this.view = new LevelView(this.window, this.canvas, level, this.game.character);
 		this.controlListener.stop();
 		this.controlListener = new LevelControlListener(document, this.game, () => this.exitLevel());
