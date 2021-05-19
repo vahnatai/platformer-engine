@@ -1,6 +1,6 @@
-import ControlListener from './ControlListener.js';
 import Game from './model/Game.js';
 import LevelView from './ui/LevelView.js';
+import MapControlListener from './MapControlListener.js';
 import MapView from './ui/MapView.js';
 
 class GameEngine {
@@ -10,24 +10,7 @@ class GameEngine {
 		this.game = new Game();
 		this.mapView = new MapView(window, canvas, this.game.world, this.game.character);
 		this.view = this.mapView;
-		this.controlListener = new ControlListener();
-
-		const onDirection = (direction) => {
-			// get current available directions
-			const paths = this.game.world.getAllDirections(this.game.character.currentLevel);
-			const dest = paths[direction];
-
-			if (dest) {
-				const {id, x, y} = this.game.world.getLevel(dest.id);
-				this.game.character.startOnVector(x, y, id);
-			}
-		};
-
-		this.controlListener.setOnLeft(() => onDirection('left'));
-		this.controlListener.setOnUp(() => onDirection('up'));
-		this.controlListener.setOnRight(() => onDirection('right'));
-		this.controlListener.setOnDown(() => onDirection('down'));
-		this.controlListener.setOnChoose(() => this.enterLevel());
+		this.controlListener = new MapControlListener(document, this.game, () => this.enterLevel());
 	}
 
 	start() {
@@ -36,7 +19,7 @@ class GameEngine {
 		let accumulator = 0; // store remaining miliseconds (< dt) to simulate after next frame
 		let lastTime = 0;
 
-		this.controlListener.registerKeyListeners(document);
+		this.controlListener.start();
 
 		const interval = setInterval(() => {
 			var time = new Date().getTime();

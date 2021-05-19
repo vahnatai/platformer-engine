@@ -1,66 +1,43 @@
 class ControlListener {
-	constructor() {
-		this.left = new ButtonInput('ArrowLeft');
-		this.up = new ButtonInput('ArrowUp');
-		this.right = new ButtonInput('ArrowRight');
-		this.down = new ButtonInput('ArrowDown');
-		this.choose = new ButtonInput('Space');
+	constructor(document) {
+		this.document = document;
+		this.keyListeners = {};
 	}
 
-	registerKeyListeners(document) {
-		document.onkeydown = (event) => this.onKeyDown(event);
-		document.onkeyup = (event) => this.onKeyUp(event);
+	addListener(name, keyName, document, onPressed) {
+		const listener = new ButtonInputListener(document, keyName, onPressed);
+		this.keyListeners[name] = listener;
 	}
 
-	onKeyDown(event) {
-		this.left.onKeyDown(event);
-		this.up.onKeyDown(event);
-		this.right.onKeyDown(event);
-		this.down.onKeyDown(event);
-		this.choose.onKeyDown(event);
+	start() {
+		Object.values(this.keyListeners).forEach((listener) => listener.start());
 	}
 
-	onKeyUp(event) {
-		this.left.onKeyUp(event);
-		this.up.onKeyUp(event);
-		this.right.onKeyUp(event);
-		this.down.onKeyUp(event);
-		this.choose.onKeyUp(event);
+	stop() {
+		Object.values(this.keyListeners).forEach((listener) => listener.stop());
 	}
 
 	handleInputs() {
-		this.left.checkTriggered();
-		this.up.checkTriggered();
-		this.right.checkTriggered();
-		this.down.checkTriggered();
-		this.choose.checkTriggered();
-	}
-
-	setOnLeft(onLeft) {
-		this.left.setPressedListener(onLeft);
-	}
-
-	setOnUp(onUp) {
-		this.up.setPressedListener(onUp);
-	}
-
-	setOnDown(onDown) {
-		this.down.setPressedListener(onDown);
-	}
-
-	setOnRight(onRight) {
-		this.right.setPressedListener(onRight);
-	}
-
-	setOnChoose(onChoose) {
-		this.choose.setPressedListener(onChoose);
+		Object.values(this.keyListeners).forEach((listener) => listener.checkTriggered());
 	}
 }
 
-class ButtonInput {
-	constructor(keyCode) {
+class ButtonInputListener {
+	constructor(document, keyCode, onPressed) {
+		this.document = document;
 		this.keyCode = keyCode;
 		this.isPressed = false;
+		this.onPressed = onPressed;
+	}
+
+	start() {
+		this.document.addEventListener('keydown', (event) => this.onKeyDown(event));
+		this.document.addEventListener('keyup', (event) => this.onKeyUp(event));
+	}
+	
+	stop() {
+		this.document.removeEventListener('keydown', (event) => this.onKeyDown(event));
+		this.document.removeEventListener('keyup', (event) => this.onKeyUp(event));
 	}
 
 	onKeyDown(event) {
@@ -82,10 +59,6 @@ class ButtonInput {
 			this.onPressed();
 			this.isPressed = false;
 		}
-	}
-
-	setPressedListener(onPressed) {
-		this.onPressed = onPressed;
 	}
 }
 
