@@ -1,5 +1,6 @@
 import Game from './model/Game.js';
 import LevelView from './ui/LevelView.js';
+import LevelControlListener from './LevelControlListener.js';
 import MapControlListener from './MapControlListener.js';
 import MapView from './ui/MapView.js';
 
@@ -10,7 +11,8 @@ class GameEngine {
 		this.game = new Game();
 		this.mapView = new MapView(window, canvas, this.game.world, this.game.character);
 		this.view = this.mapView;
-		this.controlListener = new MapControlListener(document, this.game, () => this.enterLevel());
+		this.mapControlListener = new MapControlListener(document, this.game, () => this.enterLevel());
+		this.controlListener = this.mapControlListener;
 	}
 
 	start() {
@@ -48,6 +50,16 @@ class GameEngine {
 		}
 		const level = this.game.world.getLevel(levelId);
 		this.view = new LevelView(this.window, this.canvas, level, this.game.character);
+		this.controlListener.stop();
+		this.controlListener = new LevelControlListener(document, this.game, () => this.exitLevel());
+		this.controlListener.start();
+	}
+
+	exitLevel() {
+		this.view = this.mapView;
+		this.controlListener.stop();
+		this.controlListener = this.mapControlListener;
+		this.controlListener.start();
 	}
 
 	simulate(dt) {

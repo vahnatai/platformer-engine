@@ -28,30 +28,29 @@ class ButtonInputListener {
 		this.keyCode = keyCode;
 		this.isPressed = false;
 		this.onPressed = onPressed;
+
+		this.onKeyDown = (event) => {
+			if (event.code !== this.keyCode) {
+				return;
+			}
+			this.isPressed = true;
+		};
+		this.onKeyUp = (event) => {
+			if (event.code !== this.keyCode) {
+				return;
+			}
+			this.isPressed = false;
+		};
 	}
 
 	start() {
-		this.document.addEventListener('keydown', (event) => this.onKeyDown(event));
-		this.document.addEventListener('keyup', (event) => this.onKeyUp(event));
+		this.document.addEventListener('keydown', this.onKeyDown);
+		this.document.addEventListener('keyup', this.onKeyUp);
 	}
 	
 	stop() {
-		this.document.removeEventListener('keydown', (event) => this.onKeyDown(event));
-		this.document.removeEventListener('keyup', (event) => this.onKeyUp(event));
-	}
-
-	onKeyDown(event) {
-		if (event.code !== this.keyCode) {
-			return;
-		}
-		this.isPressed = true;
-	}
-	
-	onKeyUp(event) {
-		if (event.code !== this.keyCode) {
-			return;
-		}
-		this.isPressed = false;
+		this.document.removeEventListener('keydown', this.onKeyDown);
+		this.document.removeEventListener('keyup', this.onKeyUp);
 	}
 
 	checkTriggered() {
