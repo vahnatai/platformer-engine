@@ -1,4 +1,4 @@
-class Controller {
+class ControlListener {
 	constructor() {
 		this.left = new ButtonInput('ArrowLeft');
 		this.up = new ButtonInput('ArrowUp');
@@ -89,4 +89,4 @@ class ButtonInput {
 	}
 }
 
-export default Controller;
+export default ControlListener;

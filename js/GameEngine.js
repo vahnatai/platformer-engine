@@ -1,4 +1,4 @@
-import Controller from './Controller.js';
+import ControlListener from './ControlListener.js';
 import Game from './model/Game.js';
 import LevelView from './ui/LevelView.js';
 import MapView from './ui/MapView.js';
@@ -10,7 +10,7 @@ class GameEngine {
 		this.game = new Game();
 		this.mapView = new MapView(window, canvas, this.game.world, this.game.character);
 		this.view = this.mapView;
-		this.controller = new Controller();
+		this.controlListener = new ControlListener();
 
 		const onDirection = (direction) => {
 			// get current available directions
@@ -23,11 +23,11 @@ class GameEngine {
 			}
 		};
 
-		this.controller.setOnLeft(() => onDirection('left'));
-		this.controller.setOnUp(() => onDirection('up'));
-		this.controller.setOnRight(() => onDirection('right'));
-		this.controller.setOnDown(() => onDirection('down'));
-		this.controller.setOnChoose(() => this.enterLevel());
+		this.controlListener.setOnLeft(() => onDirection('left'));
+		this.controlListener.setOnUp(() => onDirection('up'));
+		this.controlListener.setOnRight(() => onDirection('right'));
+		this.controlListener.setOnDown(() => onDirection('down'));
+		this.controlListener.setOnChoose(() => this.enterLevel());
 	}
 
 	start() {
@@ -36,7 +36,7 @@ class GameEngine {
 		let accumulator = 0; // store remaining miliseconds (< dt) to simulate after next frame
 		let lastTime = 0;
 
-		this.controller.registerKeyListeners(document);
+		this.controlListener.registerKeyListeners(document);
 
 		const interval = setInterval(() => {
 			var time = new Date().getTime();
@@ -68,7 +68,7 @@ class GameEngine {
 	}
 
 	simulate(dt) {
-		this.controller.handleInputs();
+		this.controlListener.handleInputs();
 
 		// handle simulation
 		this.game.character.computeWorldMovement(dt);
