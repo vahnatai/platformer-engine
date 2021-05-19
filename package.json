@@ -4,7 +4,7 @@
 	"description": "framework for 2D platform games in html5 canvas",
 	"main": "start.js",
 	"scripts": {
-		"start": "node start.js",
+		"start": "node webserver-start.js",
 		"test": "test"
 	},
 	"repository": {
