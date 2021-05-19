@@ -15,6 +15,17 @@ class Game {
 		}
 		return this.world.getLevel(levelId);
 	}
+
+	getPathToWorldDirection(direction) {
+		// get current available directions
+		const paths = this.world.getAllDirections(this.character.currentLevel);
+		return paths[direction];
+	}
+
+	startWorldPath(destination) {
+		const {id, x, y} = this.world.getLevel(destination.id);
+		this.character.startOnVector(x, y, id);
+	}
 }
 
 export default Game;

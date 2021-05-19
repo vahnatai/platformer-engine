@@ -5,14 +5,11 @@ class MapControlListener extends ControlListener {
 		super(document);
 
 		const onDirection = (direction) => {
-			// get current available directions
-			const paths = game.world.getAllDirections(game.character.currentLevel);
-			const dest = paths[direction];
-
-			if (dest) {
-				const {id, x, y} = game.world.getLevel(dest.id);
-				game.character.startOnVector(x, y, id);
+			const dest = game.getPathToWorldDirection(direction);
+			if (!dest) {
+				return;
 			}
+			game.startWorldPath(dest);
 		};
 
 		this.addKeyListener('left', 'ArrowLeft', document, () => onDirection('left'));
