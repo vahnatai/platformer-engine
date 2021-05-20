@@ -1,4 +1,4 @@
-import GameEngine from './GameEngine.js';
+import GameEngine from './engine/GameEngine.js';
 
 window.onload = () => {
 	const gameCanvas = document.getElementById('gameCanvas');

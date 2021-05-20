@@ -1,8 +1,8 @@
-import Game from './model/Game.js';
-import LevelView from './ui/LevelView.js';
-import LevelControlListener from './LevelControlListener.js';
-import MapControlListener from './MapControlListener.js';
-import MapView from './ui/MapView.js';
+import Game from '../model/Game.js';
+import LevelView from '../ui/LevelView.js';
+import LevelControlListener from './controls/LevelControlListener.js';
+import MapControlListener from './controls/MapControlListener.js';
+import MapView from '../ui/MapView.js';
 
 class GameEngine {
 	constructor (window, document, canvas) {
