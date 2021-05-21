@@ -5,7 +5,7 @@ class SoundEngine {
 		this.playing = {};
 		this.context = new (window.AudioContext || window.webkitAudioContext)();
 		this.gainNode = this.context.createGain();
-		this.gainNode.gain.value = 0.50; // 50% volume
+		this.gainNode.gain.value = SoundEngine.GAIN;
 		this.gainNode.connect(this.context.destination);
 	}
 
@@ -48,5 +48,7 @@ class SoundEngine {
 		return buffer;
 	}
 }
+
+SoundEngine.GAIN = 0.25;
 
 export default SoundEngine;
