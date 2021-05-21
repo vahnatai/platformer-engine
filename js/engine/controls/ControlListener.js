@@ -5,7 +5,7 @@ class ControlListener {
 	}
 
 	addKeyListener(name, keyName, document, onPressed) {
-		const listener = new ButtonInputListener(document, keyName, onPressed);
+		const listener = new KeyInputListener(document, keyName, onPressed);
 		this.keyListeners[name] = listener;
 	}
 
@@ -26,7 +26,7 @@ class ControlListener {
 	}
 }
 
-class ButtonInputListener {
+class KeyInputListener {
 	constructor(document, keyCode, onPressed) {
 		this.document = document;
 		this.keyCode = keyCode;
