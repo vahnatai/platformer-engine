@@ -25,8 +25,8 @@ class SoundEngine {
 	async loadAllSounds() {
 		this.sounds = {
 			INTRO: await this.loadAudio('hello_odd.mp3'),
-			INDOORS: await this.loadAudio('open_breeze.mp3'),
 			MAP: await this.loadAudio('happy_outback.mp3'),
+			LEVEL_1: await this.loadAudio('open_breeze.mp3'),
 		};
 	}
 

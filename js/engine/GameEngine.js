@@ -60,7 +60,7 @@ class GameEngine {
 		this.controlListener = new LevelControlListener(document, this.game, () => this.exitToMap());
 		this.controlListener.start();
 		this.soundEngine.stopAll();
-		this.soundEngine.playAudio('INDOORS', true);
+		this.soundEngine.playAudio('LEVEL_1', true);
 	}
 
 	exitToMap() {
