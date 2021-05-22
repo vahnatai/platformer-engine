@@ -52,8 +52,8 @@ class Character {
 
 	computePosition(ms) {
 		const speed = 2;
-		this.x = Math.floor(this.x + this.velocity.x * speed * ms/1000);
-		this.y = Math.floor(this.y + this.velocity.y * speed * ms/1000);
+		this.x += this.velocity.x * speed * ms/1000;
+		this.y += this.velocity.y * speed * ms/1000;
 	}
 
 	computeWorldMovement(ms) {

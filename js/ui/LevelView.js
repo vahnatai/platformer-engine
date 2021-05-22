@@ -31,7 +31,7 @@ class LevelView extends View {
 		const sprite = this.sprites.main;
 
 		// sprite
-		this.context.drawImage(sprite, x - sprite.width/2, y - sprite.height + 3);
+		this.context.drawImage(sprite, Math.round(x - sprite.width/2), Math.round(y - sprite.height + 3));
 	}
 
 	render() {
