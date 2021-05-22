@@ -4,8 +4,8 @@ class ControlListener {
 		this.keyListeners = {};
 	}
 
-	addKeyListener(name, keyName, document, onPressed) {
-		const listener = new KeyInputListener(document, keyName, onPressed);
+	addKeyListener(name, keyName, document, onPressed, onReleased) {
+		const listener = new KeyInputListener(document, keyName, onPressed, onReleased);
 		this.keyListeners[name] = listener;
 	}
 
@@ -27,23 +27,29 @@ class ControlListener {
 }
 
 class KeyInputListener {
-	constructor(document, keyCode, onPressed) {
+	constructor(document, keyCode, onPressed, onReleased = ()=>{}) {
 		this.document = document;
 		this.keyCode = keyCode;
+
 		this.isPressed = false;
+		this.isReleased = false;
+
 		this.onPressed = onPressed;
+		this.onReleased = onReleased;
 
 		this.onKeyDown = (event) => {
 			if (event.code !== this.keyCode) {
 				return;
 			}
 			this.isPressed = true;
+			this.isReleased = false;
 		};
 		this.onKeyUp = (event) => {
 			if (event.code !== this.keyCode) {
 				return;
 			}
 			this.isPressed = false;
+			this.isReleased = true;
 		};
 	}
 
@@ -58,11 +64,14 @@ class KeyInputListener {
 	}
 
 	checkPressed() {
-		if (!this.isPressed) {
-			return;
+		if (this.isPressed) {
+			this.onPressed();
+			this.isPressed = false;
 		}
-		this.onPressed();
-		this.isPressed = false;
+		if (this.isReleased) {
+			this.onReleased();
+			this.isReleased = false;
+		}
 	}
 }
 

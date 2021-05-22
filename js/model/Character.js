@@ -26,20 +26,40 @@ class Character {
 		this.currentLevel = currentLevel;
 	}
 
-	startOnVector(endX, endY, endLevelID) {
+	setVelocity(x, y) {
+		this.velocity = new Vector(x, y);
+	}
+
+	startWorldPath(endX, endY, endLevelID) {
 		this.destLevelID = endLevelID;
 		this.currentLevelID = null;
-		this.velocity = new Vector(endX - this.x, endY - this.y);
+		this.setVelocity(endX - this.x, endY - this.y);
 		this.destX = endX;
 		this.destY = endY; 
 	}
 
+	walkLeft() {
+		this.setVelocity(-Character.MOVE_SPEED, 0);
+	}
+
+	walkRight() {
+		this.setVelocity(Character.MOVE_SPEED, 0);
+	}
+
+	stop() {
+		this.setVelocity(0, 0);
+	}
+
+	computePosition(ms) {
+		const speed = 2;
+		this.x = Math.floor(this.x + this.velocity.x * speed * ms/1000);
+		this.y = Math.floor(this.y + this.velocity.y * speed * ms/1000);
+	}
+
 	computeWorldMovement(ms) {
 		if (this.destLevelID) {
-			const speed = 2;
+			this.computePosition(ms);
 			const arrivalSensitivity = 5;
-			this.x += this.velocity.x * speed * ms/1000;
-			this.y += this.velocity.y * speed * ms/1000;
 			if (Math.abs(this.destX - this.x) < arrivalSensitivity && Math.abs(this.destY - this.y) < arrivalSensitivity) {
 				// set curr to dest
 				this.x = this.destX;
@@ -54,7 +74,10 @@ class Character {
 	}
 
 	computeLevelMovement(ms) {
+		this.computePosition(ms);
 	}
 }
+
+Character.MOVE_SPEED = 200;
 
 export default Character;

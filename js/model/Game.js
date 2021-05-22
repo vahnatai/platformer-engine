@@ -45,7 +45,19 @@ class Game {
 
 	startWorldPath(destination) {
 		const {id, x, y} = this.world.getLevel(destination.id);
-		this.character.startOnVector(x, y, id);
+		this.character.startWorldPath(x, y, id);
+	}
+
+	walkLeft() {
+		this.character.walkLeft();
+	}
+
+	walkRight() {
+		this.character.walkRight();
+	}
+
+	stopWalking() {
+		this.character.stop();
 	}
 }
 

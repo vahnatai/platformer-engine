@@ -8,7 +8,7 @@ class Level {
 	}
 
 	getStartCoords() {
-		return {x: 100, y: 100};
+		return {x: 50, y: 580};
 	}
 
 	getFloorHeight() {
