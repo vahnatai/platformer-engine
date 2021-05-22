@@ -6,23 +6,34 @@ class Game {
 		this.world = new World();
 		const {id: levelId, x: startX, y: startY} = this.world.getStartPosition();
 		this.character = new Character(startX, startY, levelId);
+		this.currentLevel = null;
 	}
 
 	simulate(dt) {
-		this.character.computeWorldMovement(dt);
+		if (this.currentLevel) {
+			this.character.computeLevelMovement(dt);
+		}
+		else {
+			this.character.computeWorldMovement(dt);
+		}
 	}
 
-	getCurrentLevel() {
-		const levelId = this.character.getCurrentLevel();
-		if (!levelId) {
-			return null;
-		}
-		return this.world.getLevel(levelId);
+	enterCurrentLevel() {
+		const levelId = this.character.getCurrentLevelID();
+		if (!levelId) return;
+		const level = this.world.getLevel(levelId);
+		if (!level) return;
+		this.currentLevel = level;
+		return level;
+	}
+
+	exitCurrentLevel() {
+		this.currentLevel = null;
 	}
 
 	getPathToWorldDirection(direction) {
 		// get current available directions
-		const paths = this.world.getAllDirections(this.character.currentLevel);
+		const paths = this.world.getAllDirections(this.character.getCurrentLevelID());
 		return paths[direction];
 	}
 

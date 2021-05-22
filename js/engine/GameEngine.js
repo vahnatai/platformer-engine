@@ -51,7 +51,7 @@ class GameEngine {
 	}
 
 	enterLevel() {
-		const level = this.game.getCurrentLevel();
+		const level = this.game.enterCurrentLevel();
 		if (!level) {
 			return;
 		}
@@ -64,6 +64,7 @@ class GameEngine {
 	}
 
 	exitToMap() {
+		this.game.exitCurrentLevel();
 		this.view = this.mapView;
 		this.controlListener.stop();
 		this.controlListener = this.mapControlListener;
