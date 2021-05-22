@@ -39,6 +39,9 @@ class SoundEngine {
 		source.connect(this.gainNode);
 		source.loop = loop;
 		this.playing[name] = source;
+		if (!loop) {
+			source.addEventListener('ended', () => this.stopAudio(name));
+		}
 		source.start();
 		return source;
 	}
