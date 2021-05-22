@@ -1,15 +1,18 @@
 class SoundEngine {
-	constructor(document, volumeInput) {
+	constructor(document, volumeInput, localStorage) {
 		this.document = document;
 		this.volumeInput = volumeInput;
+		this.localStorage = localStorage;
+
 		this.sounds = {};
 		this.playing = {};
 		this.context = new (window.AudioContext || window.webkitAudioContext)();
 		this.gainNode = this.context.createGain();
-		this.gainNode.gain.value = this.volumeInput.value = SoundEngine.DEFAULT_GAIN;
+		this.gainNode.gain.value = this.volumeInput.value = localStorage.volume || SoundEngine.DEFAULT_GAIN;
 		this.gainNode.connect(this.context.destination);
 
 		this.volumeInput.addEventListener('input', (event) => {
+			localStorage.volume = event.target.value;
 			this.setVolume(event.target.value);
 		});
 	}

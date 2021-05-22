@@ -16,7 +16,7 @@ class GameEngine {
 		this.view = new IntroView(window, canvas);
 		this.mapControlListener = new MapControlListener(document, this.game, () => this.enterLevel());
 		this.controlListener = new IntroControlListener(document, this.game, () => this.exitToMap());
-		this.soundEngine = new SoundEngine(document, volumeInput);
+		this.soundEngine = new SoundEngine(document, volumeInput, window.localStorage);
 	}
 
 	async start() {
