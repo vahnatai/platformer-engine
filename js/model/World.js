@@ -2,12 +2,12 @@ import Level from './Level.js';
 
 class World {
 	constructor () {
-		this.levels = {
-			'1-1': {
+		const levelData = [
+			{
 				id: '1-1',
 				x: 200,
 				y: 530,
-				level: new Level(),
+				isSecret: false,
 				paths: [
 					{
 						destination: '1-2',
@@ -17,11 +17,11 @@ class World {
 					},
 				],
 			},
-			'1-2': {
+			{
 				id: '1-2',
 				x: 550,
 				y: 530,
-				level: new Level(),
+				isSecret: false,
 				paths: [
 					{
 						destination: '1-3',
@@ -31,11 +31,11 @@ class World {
 					},
 				],
 			},
-			'1-3': {
+			{
 				id: '1-3',
 				x: 700,
 				y: 360,
-				level: new Level(),
+				isSecret: false,
 				paths: [
 					{
 						destination: '1-4',
@@ -51,12 +51,11 @@ class World {
 					},
 				],
 			},
-			'1-S1': {
+			{
 				id: '1-S1',
 				x: 430,
 				y: 360,
 				isSecret: true,
-				level: new Level(),
 				paths: [
 					{
 						destination: '1-5',
@@ -66,11 +65,11 @@ class World {
 					},
 				],
 			},
-			'1-4': {
+			{
 				id: '1-4',
 				x: 690,
 				y: 250,
-				level: new Level(),
+				isSecret: false,
 				paths: [
 					{
 						destination: '1-5',
@@ -80,11 +79,11 @@ class World {
 					},
 				],
 			},
-			'1-5': {
+			{
 				id: '1-5',
 				x: 450,
 				y: 235,
-				level: new Level(),
+				isSecret: false,
 				paths: [
 					{
 						destination: '1-6',
@@ -100,12 +99,11 @@ class World {
 					},
 				],
 			},
-			'1-S2': {
+			{
 				id: '1-S2',
 				x: 240,
 				y: 90,
 				isSecret: true,
-				level: new Level(),
 				paths: [
 					{
 						destination: '1-7',
@@ -115,11 +113,11 @@ class World {
 					},
 				],
 			},
-			'1-6': {
+			{
 				id: '1-6',
 				x: 150,
 				y: 330,
-				level: new Level(),
+				isSecret: false,
 				paths: [
 					{
 						destination: '1-7',
@@ -129,14 +127,16 @@ class World {
 					},
 				],
 			},
-			'1-7': {
+			{
 				id: '1-7',
 				x: 125,
 				y: 220,
-				level: new Level(),
+				isSecret: false,
 				paths: [],
 			},
-		};
+		];
+		this.levels = {};
+		levelData.forEach((data) => {this.levels[data.id] = new Level(...Object.values(data));});
 	}
 
 	addPath(srcLevelId, destLevelId, isSecret) {
@@ -157,22 +157,7 @@ class World {
 	}
 
 	getLevel(id) {
-		const {
-			x,
-			y,
-			level,
-			isSecret,
-			paths,
-		} = this.levels[id];
-
-		return {
-			id,
-			x,
-			y,
-			level,
-			isSecret,
-			paths: [...paths],
-		};
+		return this.levels[id];
 	}
 
 	getAllDirections(levelId) {
@@ -209,7 +194,7 @@ class World {
 
 	getStartPosition() {
 		const startKey = Object.keys(this.levels)[0];
-		const {id, x, y} = this.getLevel(startKey);
+		const {id, x: x, y: y} = this.getLevel(startKey);
 		return {id, x, y};
 	}
 }

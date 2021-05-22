@@ -24,10 +24,16 @@ class Game {
 		const level = this.world.getLevel(levelId);
 		if (!level) return;
 		this.currentLevel = level;
+		const {x, y} = level.getStartCoords();
+		this.character.setPosition(x, y);
 		return level;
 	}
 
 	exitCurrentLevel() {
+		if (this.currentLevel) {
+			const {x, y} = this.currentLevel;
+			this.character.setPosition(x, y);
+		}
 		this.currentLevel = null;
 	}
 
