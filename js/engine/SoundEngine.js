@@ -1,12 +1,25 @@
 class SoundEngine {
-	constructor(document) {
+	constructor(document, volumeInput) {
 		this.document = document;
+		this.volumeInput = volumeInput;
 		this.sounds = {};
 		this.playing = {};
 		this.context = new (window.AudioContext || window.webkitAudioContext)();
 		this.gainNode = this.context.createGain();
-		this.gainNode.gain.value = SoundEngine.GAIN;
+		this.gainNode.gain.value = this.volumeInput.value = SoundEngine.DEFAULT_GAIN;
 		this.gainNode.connect(this.context.destination);
+
+		this.volumeInput.addEventListener('input', (event) => {
+			this.setVolume(event.target.value);
+		});
+	}
+
+	getVolume() {
+		return this.gainNode.gain.value;
+	}
+
+	setVolume(value) {
+		this.gainNode.gain.value = value;
 	}
 
 	async loadAllSounds() {
@@ -49,6 +62,6 @@ class SoundEngine {
 	}
 }
 
-SoundEngine.GAIN = 0.25;
+SoundEngine.DEFAULT_GAIN = 0.25;
 
 export default SoundEngine;

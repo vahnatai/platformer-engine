@@ -1,16 +1,28 @@
 html {
-    width: 100%;
-    height: 100%;
-    font-size: 13pt;
-    font-family: "Lucida Console", monospace;
+	width: 100%;
+	height: 100%;
+	font-size: 13pt;
+	font-family: "Lucida Console", monospace;
 }
 
 body {
-    background-color: black;
-    color: white;
+	background-color: black;
+	color: white;
 }
 
 #gameCanvas {
-    margin: 0 auto;
-    display: block;
+	margin: 0 auto;
+	display: block;
+}
+
+.controlPanel {
+	width: 400px;
+	margin: 0 auto;
+	padding: 70px;
+	display: block;
+}
+
+.volumeControl {
+	width: 300px;
+	color: white;
 }
