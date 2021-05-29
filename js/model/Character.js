@@ -30,12 +30,20 @@ class Character {
 		this.velocity = new Vector(x, y);
 	}
 
+	addVelocity(x, y) {
+		this.velocity = this.velocity.add(new Vector(x, y));
+	}
+
 	startWorldPath(endX, endY, endLevelID) {
 		this.destLevelID = endLevelID;
 		this.currentLevelID = null;
 		this.setVelocity(endX - this.x, endY - this.y);
 		this.destX = endX;
 		this.destY = endY; 
+	}
+
+	jump() {
+		this.addVelocity(0, -Character.MOVE_SPEED);
 	}
 
 	walkLeft() {

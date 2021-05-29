@@ -56,6 +56,10 @@ class Game {
 		this.character.walkRight();
 	}
 
+	jump() {
+		this.character.jump();
+	}
+
 	stopWalking() {
 		this.character.stop();
 	}

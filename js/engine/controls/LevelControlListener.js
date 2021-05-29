@@ -13,14 +13,20 @@ class LevelControlListener extends ControlListener {
 			}
 		};
 
+		const onJump = () => {
+			game.jump();
+		};
+
 		const onStop = () => {
 			game.stopWalking();
 		};
 
 		this.addKeyListener('left', 'ArrowLeft', document, () => onWalk('left'), () => onStop());
 		this.addKeyListener('right', 'ArrowRight', document, () => onWalk('right'), () => onStop());
-		
-		this.addKeyListener('choose', 'Space', document, () => exitLevel());
+
+		this.addKeyListener('exit', 'Escape', document, () => exitLevel());
+
+		this.addKeyListener('jump', 'Space', document, () => onJump());
 	}
 }
 
