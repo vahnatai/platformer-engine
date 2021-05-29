@@ -1,11 +1,11 @@
 import Vector from './Vector.js';
 
 class Character {
-	constructor (x, y, currentLevelID) {
+	constructor (x, y, currentLevel) {
 		this.x = x;
 		this.y = y;
-		this.currentLevelID = currentLevelID;
-		this.destLevelID = null;
+		this.currentLevel = currentLevel;
+		this.destLevel = null;
 		this.velocity = new Vector(0, 0);
 		this.acceleration = new Vector(0, 0);
 		this.destX = null;
@@ -21,7 +21,7 @@ class Character {
 
 	getY() {return this.y;}
 
-	getCurrentLevelID() {return this.currentLevelID;}
+	getCurrentLevel() {return this.currentLevel;}
 
 	setCurrentLevel(currentLevel) {
 		this.currentLevel = currentLevel;
@@ -43,9 +43,9 @@ class Character {
 		this.acceleration = this.acceleration.add(new Vector(x, y));
 	}
 
-	startWorldPath(endX, endY, endLevelID) {
-		this.destLevelID = endLevelID;
-		this.currentLevelID = null;
+	startWorldPath(endX, endY, endLevel) {
+		this.destLevel = endLevel;
+		this.currentLevel = null;
 		this.setVelocity(endX - this.x, endY - this.y);
 		this.destX = endX;
 		this.destY = endY; 
@@ -78,18 +78,18 @@ class Character {
 	}
 
 	computeWorldMovement(ms) {
-		if (this.destLevelID) {
+		if (this.destLevel) {
 			this.computePosition(ms);
 			const arrivalSensitivity = 5;
 			if (Math.abs(this.destX - this.x) < arrivalSensitivity && Math.abs(this.destY - this.y) < arrivalSensitivity) {
 				// set curr to dest
 				this.x = this.destX;
 				this.y = this.destY;
-				this.currentLevelID = this.destLevelID;
+				this.currentLevel = this.destLevel;
 				this.velocity = new Vector(0, 0);
 				this.destX = null;
 				this.destY = null;
-				this.destLevelID = null;
+				this.destLevel = null;
 			}
 		}
 	}

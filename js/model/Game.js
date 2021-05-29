@@ -4,8 +4,8 @@ import World from './World.js';
 class Game {
 	constructor() {
 		this.world = new World();
-		const {id: levelId, x: startX, y: startY} = this.world.getStartPosition();
-		this.character = new Character(startX, startY, levelId);
+		const {level, x: startX, y: startY} = this.world.getStartPosition();
+		this.character = new Character(startX, startY, level);
 		this.currentLevel = null;
 	}
 
@@ -19,9 +19,7 @@ class Game {
 	}
 
 	enterCurrentLevel() {
-		const levelId = this.character.getCurrentLevelID();
-		if (!levelId) return;
-		const level = this.world.getLevel(levelId);
+		const level = this.character.getCurrentLevel();
 		if (!level) return;
 		this.currentLevel = level;
 		const {x, y} = level.getStartCoords();
@@ -39,13 +37,13 @@ class Game {
 
 	getPathToWorldDirection(direction) {
 		// get current available directions
-		const paths = this.world.getAllDirections(this.character.getCurrentLevelID());
+		const paths = this.world.getAllDirections(this.character.getCurrentLevel());
 		return paths[direction];
 	}
 
-	startWorldPath(destination) {
-		const {id, x, y} = this.world.getLevel(destination.id);
-		this.character.startWorldPath(x, y, id);
+	startWorldPath(destinationID) {
+		const level = this.world.getLevel(destinationID);
+		this.character.startWorldPath(level.x, level.y, level);
 	}
 
 	walkLeft() {

@@ -160,20 +160,20 @@ class World {
 		return this.levels[id];
 	}
 
-	getAllDirections(levelId) {
-		if (!levelId) {
+	getAllDirections(level) {
+		if (!level) {
 			return {};
 		}
 		const directions = this.getLevels().map(({
 			id,
 			paths,
 		}) => {
-			if (id === levelId) {
+			if (id === level.id) {
 				// current level, return all exits
 				return paths.map((path) => {
 					const directions = {};
 					if (path.directionForth) {
-						directions[path.directionForth] = {id: path.destination};
+						directions[path.directionForth] = path.destination;
 					}
 					return directions;
 				}).filter(Boolean);
@@ -181,9 +181,9 @@ class World {
 			// if current level is a dest, return direction back
 			return paths
 				.map((path) => {
-					if (path.destination === levelId) {
+					if (path.destination === level.id) {
 						const directions = {};
-						directions[path.directionBack] = {id};
+						directions[path.directionBack] = id;
 						return directions;
 					}
 				})
@@ -194,8 +194,8 @@ class World {
 
 	getStartPosition() {
 		const startKey = Object.keys(this.levels)[0];
-		const {id, x: x, y: y} = this.getLevel(startKey);
-		return {id, x, y};
+		const level = this.getLevel(startKey);
+		return {level, x: level.x, y: level.y};
 	}
 }
 
