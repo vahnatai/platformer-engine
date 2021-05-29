@@ -7,6 +7,7 @@ class Character {
 		this.currentLevelID = currentLevelID;
 		this.destLevelID = null;
 		this.velocity = new Vector(0, 0);
+		this.acceleration = new Vector(0, 0);
 		this.destX = null;
 		this.destY = null;
 	}
@@ -34,6 +35,14 @@ class Character {
 		this.velocity = this.velocity.add(new Vector(x, y));
 	}
 
+	setAcceleration(x, y) {
+		this.acceleration = new Vector(x, y);
+	}
+
+	addAcceleration(x, y) {
+		this.acceleration = this.acceleration.add(new Vector(x, y));
+	}
+
 	startWorldPath(endX, endY, endLevelID) {
 		this.destLevelID = endLevelID;
 		this.currentLevelID = null;
@@ -43,25 +52,29 @@ class Character {
 	}
 
 	jump() {
-		this.addVelocity(0, -Character.MOVE_SPEED);
+		this.addAcceleration(0, -Character.MOVE_SPEED);
 	}
 
 	walkLeft() {
-		this.setVelocity(-Character.MOVE_SPEED, 0);
+		this.setAcceleration(-Character.MOVE_SPEED, 0);
 	}
 
 	walkRight() {
-		this.setVelocity(Character.MOVE_SPEED, 0);
+		this.setAcceleration(Character.MOVE_SPEED, 0);
 	}
 
 	stop() {
 		this.setVelocity(0, 0);
+		this.setAcceleration(0, 9.81);
 	}
 
 	computePosition(ms) {
 		const speed = 2;
 		this.x += this.velocity.x * speed * ms/1000;
 		this.y += this.velocity.y * speed * ms/1000;
+
+		this.velocity.x += this.acceleration.x * ms/1000;
+		this.velocity.y += this.acceleration.y * ms/1000;
 	}
 
 	computeWorldMovement(ms) {

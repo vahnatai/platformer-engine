@@ -30,10 +30,10 @@ class Game {
 	}
 
 	exitCurrentLevel() {
-		if (this.currentLevel) {
-			const {x, y} = this.currentLevel;
-			this.character.setPosition(x, y);
-		}
+		if (!this.currentLevel) return;
+		const {x, y} = this.currentLevel;
+		this.character.setPosition(x, y);
+		this.character.stop();
 		this.currentLevel = null;
 	}
 
