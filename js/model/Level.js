@@ -8,11 +8,20 @@ class Level {
 	}
 
 	getStartCoords() {
-		return {x: 50, y: 580};
+		return {x: 500, y: 580};
 	}
 
 	getFloorHeight() {
 		return 20;
+	}
+
+	getBounds() {
+		return {
+			minX: 0,
+			minY: 20,
+			maxX: 800,
+			maxY: 600,
+		};
 	}
 }
 
