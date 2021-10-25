@@ -26,8 +26,7 @@ class LevelView extends View {
 	}
 
 	renderCharacter() {
-		const x = this.character.getX();
-		const y = this.character.getY();
+		const {x, y} = this.gameCoordsToViewCoords(this.character.getX(), this.character.getY());
 		const sprite = this.sprites.main;
 
 		// sprite

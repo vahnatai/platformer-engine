@@ -13,9 +13,20 @@ class View {
 		// prevent default menu
 		this.canvas.oncontextmenu = () => false;
 	}
+
 	render() {
+		// render background
 		this.context.fillStyle = '#FFFFFF';
 		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+	}
+
+	gameCoordsToViewCoords(x, y) {
+		return {x, y};
+	}
+
+	getViewSize() {
+		const {width, height} = this.canvas;
+		return {width, height};
 	}
 
 }
