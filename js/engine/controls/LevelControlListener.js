@@ -4,11 +4,16 @@ class LevelControlListener extends ControlListener {
 	constructor(document, game, exitLevel) {
 		super(document);
 
+		this.isWalkingLeft = false;
+		this.isWalkingRight = false;
+
 		const onWalk = (direction) => {
 			if (direction === 'left') {
+				this.isWalkingLeft = true;
 				game.walkLeft();
 			}
 			else {
+				this.isWalkingRight = true;
 				game.walkRight();
 			}
 		};
@@ -17,23 +22,20 @@ class LevelControlListener extends ControlListener {
 			game.jump();
 		};
 
-		const onStop = () => {
-			var isWalkingLeft, isWalkingRight;
-			this.forEachKeyListener((listener) => {
-				if (listener.keyCode === 'ArrowLeft') {
-					isWalkingLeft = listener.isPressed;
-				}
-				if (listener.keyCode === 'ArrowRight') {
-					isWalkingRight = listener.isPressed;
-				}
-			});
-			if (!isWalkingLeft && !isWalkingRight) {
+		const onStop = (direction) => {
+			if (direction === 'left') {
+				this.isWalkingLeft = false;
+			}
+			if (direction === 'right') {
+				this.isWalkingRight = false;
+			}
+			if (!this.isWalkingLeft && !this.isWalkingRight) {
 				game.stopWalking();
 			}
 		};
 
-		this.addKeyListener('left', 'ArrowLeft', document, () => onWalk('left'), () => onStop());
-		this.addKeyListener('right', 'ArrowRight', document, () => onWalk('right'), () => onStop());
+		this.addKeyListener('left', 'ArrowLeft', document, () => onWalk('left'), () => onStop('left'));
+		this.addKeyListener('right', 'ArrowRight', document, () => onWalk('right'), () => onStop('right'));
 
 		this.addKeyListener('exit', 'Escape', document, () => exitLevel());
 
