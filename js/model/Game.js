@@ -11,7 +11,7 @@ class Game {
 
 	simulate(dt) {
 		if (this.currentLevel) {
-			this.character.computeLevelMovement(dt);
+			this.character.computeLevelMovement(this.currentLevel, dt);
 		}
 		else {
 			this.character.computeWorldMovement(dt);

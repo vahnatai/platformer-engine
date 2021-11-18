@@ -1,7 +1,9 @@
+import RectangleShape from './shape/RectangleShape.js';
 import Vector from './Vector.js';
 
 class Character {
 	constructor (x, y, currentLevel) {
+		// TODO implement position and destPosition
 		this.x = x;
 		this.y = y;
 		this.currentLevel = currentLevel;
@@ -10,6 +12,7 @@ class Character {
 		this.acceleration = new Vector(0, 0);
 		this.destX = null;
 		this.destY = null;
+		this.gravity = Character.GRAVITY * Character.PIXELS_PER_METER;
 	}
 
 	setPosition(x, y) {
@@ -56,22 +59,26 @@ class Character {
 	}
 
 	walkLeft() {
-		this.addAcceleration(-Character.MOVE_SPEED, 0);
+		this.setAcceleration(-Character.MOVE_SPEED, this.gravity);
 	}
 
 	walkRight() {
-		this.addAcceleration(Character.MOVE_SPEED, 0);
+		this.setAcceleration(Character.MOVE_SPEED, this.gravity);
 	}
 
 	stop() {
 		this.setVelocity(0, 0);
-		this.setAcceleration(0, 9.81);
+		this.setAcceleration(0, this.gravity);
 	}
 
-	computePosition(ms) {
+	computePosition(level, ms) {
 		const speed = 2;
 		this.x += this.velocity.x * speed * ms/1000;
 		this.y += this.velocity.y * speed * ms/1000;
+
+		if (level) {
+			this.collideBounds(level, Character.RESTITUTION, ms);
+		}
 
 		this.velocity.x += this.acceleration.x * ms/1000;
 		this.velocity.y += this.acceleration.y * ms/1000;
@@ -79,7 +86,7 @@ class Character {
 
 	computeWorldMovement(ms) {
 		if (this.destLevel) {
-			this.computePosition(ms);
+			this.computePosition(null, ms);
 			const arrivalSensitivity = 5;
 			if (Math.abs(this.destX - this.x) < arrivalSensitivity && Math.abs(this.destY - this.y) < arrivalSensitivity) {
 				// set curr to dest
@@ -94,11 +101,58 @@ class Character {
 		}
 	}
 
-	computeLevelMovement(ms) {
-		this.computePosition(ms);
+	computeLevelMovement(level, ms) {
+		this.computePosition(level, ms);
 	}
+
+	getBoundingShape() {
+		return new RectangleShape(
+			{
+				x: this.x,
+				y: this.y,
+			},
+			Character.WIDTH,
+			Character.HEIGHT
+		);
+	}
+
+	collideBounds(level, restitution, dt) {
+		const {minX, minY, maxX, maxY} = level.getBounds();
+
+		var collided = false;
+            
+		const bShape = this.getBoundingShape();
+		if (bShape.position.x <= minX && this.velocity.x < 0) { 
+			this.velocity.x = -this.velocity.x * restitution;
+			this.x = minX + bShape.width/2; 
+			collided = true;
+		} else if (bShape.position.x + bShape.width/2 >= maxX && this.velocity.x > 0) {
+			this.velocity.x = -this.velocity.x * restitution;
+			this.x = maxX - bShape.width/2;
+			collided = true;
+		}
+		if (bShape.position.y <= minY && this.velocity.y < 0) {
+			this.velocity.y = -this.velocity.y * restitution;
+			this.y = minY + bShape.height/2;
+			collided = true;
+		} else if (bShape.position.y + bShape.height/2 >= maxY && this.velocity.y > 0) {
+			this.velocity.y = -this.velocity.y * restitution;
+			this.y = maxY - bShape.height/2;
+			collided = true;
+		}
+		if (collided) {
+			this.onCollideBounds();
+		}
+	}
+
+	onCollideBounds() {}
 }
 
 Character.MOVE_SPEED = 200;
+Character.GRAVITY = 9.81;
+Character.PIXELS_PER_METER = 10;
+Character.RESTITUTION = 0.75;
+Character.WIDTH = 31;
+Character.HEIGHT = 45;
 
 export default Character;
