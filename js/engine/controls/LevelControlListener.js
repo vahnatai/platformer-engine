@@ -18,7 +18,18 @@ class LevelControlListener extends ControlListener {
 		};
 
 		const onStop = () => {
-			game.stopWalking();
+			var isWalkingLeft, isWalkingRight;
+			this.forEachKeyListener((listener) => {
+				if (listener.keyCode === 'ArrowLeft') {
+					isWalkingLeft = listener.isPressed;
+				}
+				if (listener.keyCode === 'ArrowRight') {
+					isWalkingRight = listener.isPressed;
+				}
+			});
+			if (!isWalkingLeft && !isWalkingRight) {
+				game.stopWalking();
+			}
 		};
 
 		this.addKeyListener('left', 'ArrowLeft', document, () => onWalk('left'), () => onStop());
