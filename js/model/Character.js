@@ -9,10 +9,10 @@ class Character {
 		this.currentLevel = currentLevel;
 		this.destLevel = null;
 		this.velocity = new Vector(0, 0);
-		this.acceleration = new Vector(0, 0);
+		this.acceleration = new Vector(0, Character.GRAVITY * Character.PIXELS_PER_METER);
 		this.destX = null;
 		this.destY = null;
-		this.gravity = Character.GRAVITY * Character.PIXELS_PER_METER;
+		this.isOnGround = false;
 	}
 
 	setPosition(x, y) {
@@ -55,20 +55,22 @@ class Character {
 	}
 
 	jump() {
-		this.addAcceleration(0, -Character.MOVE_SPEED);
+		if (this.isOnGround) {
+			this.setVelocity(this.velocity.x, -Character.JUMP_SPEED);
+			this.isOnGround = false;
+		}
 	}
 
 	walkLeft() {
-		this.setAcceleration(-Character.MOVE_SPEED, this.gravity);
+		this.setVelocity(-Character.MOVE_SPEED, this.velocity.y);
 	}
 
 	walkRight() {
-		this.setAcceleration(Character.MOVE_SPEED, this.gravity);
+		this.setVelocity(Character.MOVE_SPEED, this.velocity.y);
 	}
 
 	stop() {
 		this.setVelocity(0, 0);
-		this.setAcceleration(0, this.gravity);
 	}
 
 	computePosition(level, ms) {
@@ -123,10 +125,12 @@ class Character {
             
 		const bShape = this.getBoundingShape();
 		if (bShape.position.x <= minX && this.velocity.x < 0) { 
+			this.acceleration.x = 0;
 			this.velocity.x = 0;
 			this.x = minX + bShape.width/2; 
 			collided = true;
 		} else if (bShape.position.x + bShape.width/2 >= maxX && this.velocity.x > 0) {
+			this.acceleration.x = 0;
 			this.velocity.x = 0;
 			this.x = maxX - bShape.width/2;
 			collided = true;
@@ -139,6 +143,7 @@ class Character {
 			this.velocity.y = 0;
 			this.y = maxY - bShape.height/2;
 			collided = true;
+			this.isOnGround = true;
 		}
 		if (collided) {
 			this.onCollideBounds();
@@ -148,9 +153,10 @@ class Character {
 	onCollideBounds() {}
 }
 
-Character.MOVE_SPEED = 200;
+Character.MOVE_SPEED = 100;
+Character.JUMP_SPEED = 75;
 Character.GRAVITY = 9.81;
-Character.PIXELS_PER_METER = 10;
+Character.PIXELS_PER_METER = 20;
 Character.RESTITUTION = 0.75;
 Character.WIDTH = 31;
 Character.HEIGHT = 45;
