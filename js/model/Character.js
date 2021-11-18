@@ -56,11 +56,11 @@ class Character {
 	}
 
 	walkLeft() {
-		this.setAcceleration(-Character.MOVE_SPEED, 0);
+		this.addAcceleration(-Character.MOVE_SPEED, 0);
 	}
 
 	walkRight() {
-		this.setAcceleration(Character.MOVE_SPEED, 0);
+		this.addAcceleration(Character.MOVE_SPEED, 0);
 	}
 
 	stop() {
