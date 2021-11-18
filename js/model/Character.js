@@ -79,7 +79,7 @@ class Character {
 		this.y += this.velocity.y * speed * ms/1000;
 
 		if (level) {
-			this.collideBounds(level, Character.RESTITUTION, ms);
+			this.collideBounds(level, Character.RESTITUTION);
 		}
 
 		this.velocity.x += this.acceleration.x * ms/1000;
@@ -118,7 +118,7 @@ class Character {
 		);
 	}
 
-	collideBounds(level, dt) {
+	collideBounds(level) {
 		const {minX, minY, maxX, maxY} = level.getBounds();
 
 		var collided = false;
