@@ -72,7 +72,7 @@ class Character {
 	}
 
 	computePosition(level, ms) {
-		const speed = 2;
+		const speed = 5;
 		this.x += this.velocity.x * speed * ms/1000;
 		this.y += this.velocity.y * speed * ms/1000;
 
@@ -116,27 +116,27 @@ class Character {
 		);
 	}
 
-	collideBounds(level, restitution, dt) {
+	collideBounds(level, dt) {
 		const {minX, minY, maxX, maxY} = level.getBounds();
 
 		var collided = false;
             
 		const bShape = this.getBoundingShape();
 		if (bShape.position.x <= minX && this.velocity.x < 0) { 
-			this.velocity.x = -this.velocity.x * restitution;
+			this.velocity.x = 0;
 			this.x = minX + bShape.width/2; 
 			collided = true;
 		} else if (bShape.position.x + bShape.width/2 >= maxX && this.velocity.x > 0) {
-			this.velocity.x = -this.velocity.x * restitution;
+			this.velocity.x = 0;
 			this.x = maxX - bShape.width/2;
 			collided = true;
 		}
 		if (bShape.position.y <= minY && this.velocity.y < 0) {
-			this.velocity.y = -this.velocity.y * restitution;
+			this.velocity.y = 0;
 			this.y = minY + bShape.height/2;
 			collided = true;
 		} else if (bShape.position.y + bShape.height/2 >= maxY && this.velocity.y > 0) {
-			this.velocity.y = -this.velocity.y * restitution;
+			this.velocity.y = 0;
 			this.y = maxY - bShape.height/2;
 			collided = true;
 		}
