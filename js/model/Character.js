@@ -9,7 +9,7 @@ class Character {
 		this.currentLevel = currentLevel;
 		this.destLevel = null;
 		this.velocity = new Vector(0, 0);
-		this.acceleration = new Vector(0, Character.GRAVITY * Character.PIXELS_PER_METER);
+		this.acceleration = new Vector(0, 0);
 		this.destX = null;
 		this.destY = null;
 		this.isOnGround = false;

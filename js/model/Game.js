@@ -21,6 +21,7 @@ class Game {
 	enterCurrentLevel() {
 		const level = this.character.getCurrentLevel();
 		if (!level) return;
+		this.character.setAcceleration(0, Character.GRAVITY * Character.PIXELS_PER_METER);
 		this.currentLevel = level;
 		const {x, y} = level.getStartCoords();
 		this.character.setPosition(x, y);
@@ -30,6 +31,7 @@ class Game {
 	exitCurrentLevel() {
 		if (!this.currentLevel) return;
 		const {x, y} = this.currentLevel;
+		this.character.setAcceleration(0, 0);
 		this.character.setPosition(x, y);
 		this.character.stop();
 		this.currentLevel = null;
