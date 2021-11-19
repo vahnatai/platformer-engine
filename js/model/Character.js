@@ -49,7 +49,7 @@ class Character {
 	startWorldPath(endX, endY, endLevel) {
 		this.destLevel = endLevel;
 		this.currentLevel = null;
-		this.setVelocity(endX - this.x, endY - this.y);
+		this.setVelocity((endX - this.x)/2, (endY - this.y)/2);
 		this.destX = endX;
 		this.destY = endY; 
 	}
