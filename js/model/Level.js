@@ -1,3 +1,5 @@
+import RectangleShape from './shape/RectangleShape.js';
+
 class Level {
 	constructor(id, x, y, isSecret, paths) {
 		this.id = id;
@@ -5,6 +7,10 @@ class Level {
 		this.y = y;
 		this.isSecret = isSecret;
 		this.paths = paths;
+	}
+
+	getGeometry() {
+		return [new RectangleShape({x: 200, y: 400}, 100, 100)];
 	}
 
 	getStartCoords() {
@@ -18,9 +24,9 @@ class Level {
 	getBounds() {
 		return {
 			minX: 0,
-			minY: 20,
+			minY: 0,
 			maxX: 800,
-			maxY: 600,
+			maxY: 580,
 		};
 	}
 }

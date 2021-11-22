@@ -27,6 +27,16 @@ class LevelView extends View {
 		this.context.fillRect(0, floorHeight, this.canvas.width, this.level.getFloorHeight());
 	}
 
+	renderGeometry() {
+		this.level.getGeometry().forEach((shape) => {
+			const {x, y} = this.gameCoordsToViewCoords(shape.getX(), shape.getY());
+			const width = shape.getWidth();
+			const height = shape.getHeight();
+			this.context.fillStyle = '#774444';
+			this.context.fillRect(x - width/2, y - height/2, width, height);
+		});
+	}
+
 	renderCharacter(debugBounds = false) {
 		const {x, y} = this.gameCoordsToViewCoords(this.character.getX(), this.character.getY());
 		const sprite = this.sprites.main;

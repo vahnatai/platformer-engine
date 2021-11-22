@@ -78,6 +78,9 @@ class Character {
 
 		if (level) {
 			this.collideBounds(level, Character.RESTITUTION);
+			level.getGeometry().forEach((shape) => {
+				this.collide(shape);
+			});
 		}
 
 		this.velocity.x += this.acceleration.x * ms/1000;
@@ -113,6 +116,12 @@ class Character {
 			Character.WIDTH,
 			Character.HEIGHT
 		);
+	}
+
+	collide(shape) {
+		if (this.getBoundingShape().intersect(shape)) {
+			this.velocity = new Vector(0, 0);
+		}
 	}
 
 	collideBounds(level) {
