@@ -16,6 +16,14 @@ class Shape {
 
 	// getHeight() {}
 
+	getX() {
+		return this.position.x;
+	}
+
+	getY() {
+		return this.position.y;
+	}
+
 	intersect(shape2) {
 		return Shape.intersect(this, shape2);
 	}
@@ -30,8 +38,8 @@ Shape.intersect = (shape1, shape2) => {
 
 	if (shape1.constructor.name === 'RectangleShape' && shape2.constructor.name === 'RectangleShape') {
 		//rectangle-rectangle intersection test
-		return !(shape1.position.x > shape2.position.x + shape2.getWidth() || shape1.position.x + shape1.getWidth() < shape2.position.x 
-				|| shape1.position.y > shape2.position.y + shape2.getHeight() || shape1.position.y + shape1.getHeight() < shape2.position.y);
+		return !(shape1.position.x - shape1.getWidth()/2 > shape2.position.x + shape2.getWidth()/2 || shape1.position.x + shape1.getWidth()/2 < shape2.position.x - shape2.getWidth()/2
+				|| shape1.position.y - shape1.getHeight()/2 > shape2.position.y + shape2.getHeight()/2 || shape1.position.y + shape1.getHeight()/2 < shape2.position.y - shape2.getHeight()/2);
 	}
 	var circle, rectangle;
 	if (shape1.constructor.name === 'CircleShape' && shape2.constructor.name === 'RectangleShape') {
