@@ -3,26 +3,21 @@ import Vector from './Vector.js';
 
 class Character {
 	constructor (x, y, currentLevel) {
-		// TODO implement position and destPosition
-		this.x = x;
-		this.y = y;
 		this.currentLevel = currentLevel;
-		this.destLevel = null;
+		this.destination = null;
+		this.position = new Vector(x, y);
 		this.velocity = new Vector(0, 0);
 		this.acceleration = new Vector(0, 0);
-		this.destX = null;
-		this.destY = null;
 		this.isOnGround = false;
 	}
 
 	setPosition(x, y) {
-		this.x = x;
-		this.y = y;
+		this.position = new Vector(x, y);
 	}
 
-	getX() {return this.x;}
+	getX() {return this.position.x;}
 
-	getY() {return this.y;}
+	getY() {return this.position.y;}
 
 	getCurrentLevel() {return this.currentLevel;}
 
@@ -47,11 +42,13 @@ class Character {
 	}
 
 	startWorldPath(endX, endY, endLevel) {
-		this.destLevel = endLevel;
 		this.currentLevel = null;
-		this.setVelocity((endX - this.x)/2, (endY - this.y)/2);
-		this.destX = endX;
-		this.destY = endY; 
+		this.destination = {
+			level: endLevel,
+			x: endX,
+			y: endY,
+		};
+		this.setVelocity((endX - this.position.x)/2, (endY - this.position.y)/2);
 	}
 
 	jump() {
@@ -64,7 +61,6 @@ class Character {
 	walkLeft() {
 		this.setVelocity(-Character.MOVE_SPEED, this.velocity.y);
 	}
-
 	walkRight() {
 		this.setVelocity(Character.MOVE_SPEED, this.velocity.y);
 	}
@@ -75,8 +71,8 @@ class Character {
 
 	computePosition(level, ms) {
 		const speed = 5;
-		this.x += this.velocity.x * speed * ms/1000;
-		this.y += this.velocity.y * speed * ms/1000;
+		this.position.x += this.velocity.x * speed * ms/1000;
+		this.position.y += this.velocity.y * speed * ms/1000;
 
 		if (level) {
 			this.collideBounds(level, Character.RESTITUTION);
@@ -87,18 +83,16 @@ class Character {
 	}
 
 	computeWorldMovement(ms) {
-		if (this.destLevel) {
+		if (this.destination) {
 			this.computePosition(null, ms);
 			const arrivalSensitivity = 5;
-			if (Math.abs(this.destX - this.x) < arrivalSensitivity && Math.abs(this.destY - this.y) < arrivalSensitivity) {
+			if (Math.abs(this.destination.x - this.position.x) < arrivalSensitivity && Math.abs(this.destination.y - this.position.y) < arrivalSensitivity) {
 				// set curr to dest
-				this.x = this.destX;
-				this.y = this.destY;
-				this.currentLevel = this.destLevel;
+				this.position.x = this.destination.x;
+				this.position.y = this.destination.y;
+				this.currentLevel = this.destination.level;
 				this.velocity = new Vector(0, 0);
-				this.destX = null;
-				this.destY = null;
-				this.destLevel = null;
+				this.destination = null;
 			}
 		}
 	}
@@ -110,8 +104,8 @@ class Character {
 	getBoundingShape() {
 		return new RectangleShape(
 			{
-				x: this.x,
-				y: this.y,
+				x: this.position.x,
+				y: this.position.y,
 			},
 			Character.WIDTH,
 			Character.HEIGHT
@@ -127,21 +121,21 @@ class Character {
 		if (bShape.position.x <= minX && this.velocity.x < 0) { 
 			this.acceleration.x = 0;
 			this.velocity.x = 0;
-			this.x = minX + bShape.width/2; 
+			this.position.x = minX + bShape.width/2; 
 			collided = true;
 		} else if (bShape.position.x + bShape.width/2 >= maxX && this.velocity.x > 0) {
 			this.acceleration.x = 0;
 			this.velocity.x = 0;
-			this.x = maxX - bShape.width/2;
+			this.position.x = maxX - bShape.width/2;
 			collided = true;
 		}
 		if (bShape.position.y <= minY && this.velocity.y < 0) {
 			this.velocity.y = 0;
-			this.y = minY + bShape.height/2;
+			this.position.y = minY + bShape.height/2;
 			collided = true;
 		} else if (bShape.position.y + bShape.height/2 >= maxY && this.velocity.y > 0) {
 			this.velocity.y = 0;
-			this.y = maxY - bShape.height/2;
+			this.position.y = maxY - bShape.height/2;
 			collided = true;
 			this.isOnGround = true;
 		}
@@ -154,7 +148,7 @@ class Character {
 }
 
 Character.MOVE_SPEED = 100;
-Character.JUMP_SPEED = 75;
+Character.JUMP_SPEED = 100;
 Character.GRAVITY = 9.81;
 Character.PIXELS_PER_METER = 20;
 Character.RESTITUTION = 0.75;
