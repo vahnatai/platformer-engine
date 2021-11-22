@@ -17,9 +17,9 @@ class GameEngine {
 		this.mapControlListener = new MapControlListener(document, this.game, () => this.enterLevel());
 		this.controlListener = new IntroControlListener(document, this.game, () => this.exitToMap());
 		
-		volumeInput.value = JSON.parse(localStorage.volume) || GameEngine.DEFAULT_GAIN;
+		volumeInput.value = localStorage.volume ? JSON.parse(localStorage.volume) : GameEngine.DEFAULT_GAIN;
 		this.soundEngine = new SoundEngine(document, volumeInput.value);
-		this.isDebug = debugInput.checked = JSON.parse(localStorage.isDebug) || GameEngine.DEFAULT_DEBUG;
+		this.isDebug = debugInput.checked = localStorage.isDebug ? JSON.parse(localStorage.isDebug) : GameEngine.DEFAULT_DEBUG;
 
 		debugInput.addEventListener('input', (event) => {
 			localStorage.isDebug = event.target.checked;
