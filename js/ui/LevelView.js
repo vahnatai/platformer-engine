@@ -18,7 +18,9 @@ class LevelView extends View {
 		this.context.lineWidth = 1;
 		this.context.strokeStyle = '#000000';
 		this.context.strokeText(JSON.stringify(this.level.id), 390, 400);
-		this.context.strokeText(JSON.stringify(this.level.getStartCoords()), 375, 500);
+		this.context.strokeText('StartPOS: ' + JSON.stringify(this.level.getStartCoords()), 370, 500);
+		this.context.strokeText('POS: ' + JSON.stringify(this.character.position), 370, 520);
+		this.context.strokeText('on ground: ' + JSON.stringify(this.character.isOnGround), 370, 540);
 
 		this.context.fillStyle = '#444444';
 		const floorHeight = this.canvas.height - this.level.getFloorHeight();
