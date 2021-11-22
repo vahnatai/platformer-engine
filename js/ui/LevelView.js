@@ -25,19 +25,26 @@ class LevelView extends View {
 		this.context.fillRect(0, floorHeight, this.canvas.width, this.level.getFloorHeight());
 	}
 
-	renderCharacter() {
+	renderCharacter(debugBounds = false) {
 		const {x, y} = this.gameCoordsToViewCoords(this.character.getX(), this.character.getY());
 		const sprite = this.sprites.main;
 
 		// sprite
-		this.context.drawImage(sprite, Math.round(x - sprite.width/2), Math.round(y - sprite.height + 3));
+		this.context.drawImage(sprite, Math.round(x - sprite.width/2), Math.round(y - sprite.height/2));
+
+		if (debugBounds) {
+			this.context.strokeStyle = '#AA0000';
+			const shape = this.character.getBoundingShape();
+			this.context.strokeRect(x - shape.getWidth()/2, y - shape.getHeight()/2, shape.getWidth(), shape.getHeight());
+		}
 	}
 
-	render() {
+	render(debugMode = false) {
 		super.render();
 
 		this.renderBackground();
-		this.renderCharacter();
+		this.renderGeometry();
+		this.renderCharacter(debugMode);
 	}
 }
 

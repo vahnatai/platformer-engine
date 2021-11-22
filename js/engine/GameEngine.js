@@ -8,7 +8,7 @@ import MapView from '../ui/MapView.js';
 import SoundEngine from './SoundEngine.js';
 
 class GameEngine {
-	constructor (window, document, canvas, volumeInput) {
+	constructor (window, document, canvas, volumeInput, debugInput) {
 		this.document = document;
 		this.canvas = canvas;
 		this.game = new Game();
@@ -16,7 +16,20 @@ class GameEngine {
 		this.view = new IntroView(window, canvas);
 		this.mapControlListener = new MapControlListener(document, this.game, () => this.enterLevel());
 		this.controlListener = new IntroControlListener(document, this.game, () => this.exitToMap());
-		this.soundEngine = new SoundEngine(document, volumeInput, window.localStorage);
+		
+		volumeInput.value = JSON.parse(localStorage.volume) || GameEngine.DEFAULT_GAIN;
+		this.soundEngine = new SoundEngine(document, volumeInput.value);
+		this.isDebug = debugInput.checked = JSON.parse(localStorage.isDebug) || GameEngine.DEFAULT_DEBUG;
+
+		debugInput.addEventListener('input', (event) => {
+			localStorage.isDebug = event.target.checked;
+			this.isDebug = event.target.checked;
+		});
+
+		volumeInput.addEventListener('input', (event) => {
+			localStorage.volume = event.target.value;
+			this.soundEngine.setVolume(event.target.value);
+		});
 	}
 
 	async start() {
@@ -42,7 +55,7 @@ class GameEngine {
 					this.simulate(dt);
 					accumulator -= dt;
 				}
-				this.view.render();
+				this.view.render(this.isDebug);
 			} catch (error) {
 				clearInterval(interval);
 				console.error(error);
@@ -79,6 +92,8 @@ class GameEngine {
 	}
 }
 
+GameEngine.DEFAULT_DEBUG = false;
+GameEngine.DEFAULT_GAIN = 0.25;
 GameEngine.FPS = 60;
 
 export default GameEngine;
