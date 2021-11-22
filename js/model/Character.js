@@ -3,11 +3,13 @@ import Vector from './Vector.js';
 
 class Character {
 	constructor (x, y, currentLevel) {
-		this.currentLevel = currentLevel;
-		this.destination = null;
 		this.position = new Vector(x, y);
 		this.velocity = new Vector(0, 0);
 		this.acceleration = new Vector(0, 0);
+
+		this.currentLevel = currentLevel;
+		this.destination = null;
+
 		this.isOnGround = false;
 	}
 
@@ -91,8 +93,9 @@ class Character {
 				this.position.x = this.destination.x;
 				this.position.y = this.destination.y;
 				this.currentLevel = this.destination.level;
-				this.velocity = new Vector(0, 0);
+				// reset and stop moving
 				this.destination = null;
+				this.velocity = new Vector(0, 0);
 			}
 		}
 	}
