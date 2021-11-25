@@ -164,7 +164,7 @@ Character.JUMP_SPEED = 100;
 Character.GRAVITY = 9.81;
 Character.PIXELS_PER_METER = 20;
 Character.RESTITUTION = 0.75;
-Character.WIDTH = 31;
-Character.HEIGHT = 49;
+Character.WIDTH = 24;
+Character.HEIGHT = 42;
 
 export default Character;
