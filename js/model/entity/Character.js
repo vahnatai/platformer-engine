@@ -72,18 +72,18 @@ class Character extends Entity {
 
 	computePosition(level, ms) {
 		const speed = 5;
-		this.position.x += this.velocity.x * speed * ms/1000;
-		this.position.y += this.velocity.y * speed * ms/1000;
+		this.position = this.position.add(this.velocity.multiplyScalar(speed * ms/1000));
 
 		if (level) {
 			this.collideBounds(level, Character.RESTITUTION);
 			level.getGeometry().forEach((entity) => {
-				this.collide(entity);
+				if (entity.isColliding(this)) {
+					entity.collide(this);
+				}
 			});
 		}
 
-		this.velocity.x += this.acceleration.x * ms/1000;
-		this.velocity.y += this.acceleration.y * ms/1000;
+		this.velocity = this.velocity.add(this.acceleration.multiplyScalar(ms/1000));
 	}
 
 	computeWorldMovement(ms) {
@@ -112,35 +112,6 @@ class Character extends Entity {
 			Character.WIDTH,
 			Character.HEIGHT
 		);
-	}
-
-	collide(that) {
-		var delta = this.position.subtract(that.position);
-		var d = delta.getLength();
-		// minimum translation distance
-		var mtd = delta.multiplyScalar(((this.radius + that.radius)-d)/d);
-		
-		// push-pull them apart based off their mass
-		this.position = this.position.add(mtd.multiplyScalar(0.5));
-		that.position = that.position.subtract(mtd.multiplyScalar(0.5));
-
-		// impact speed
-		var v = (this.velocity.subtract(that.velocity));
-		var vn = v.dotProduct(mtd.normalized());
-		
-		// sphere intersecting but moving away from each other already
-		if (vn > 0.0) {
-			//alert("Bump1: " + vn);
-			return;
-		}
-		//alert("Bump2: " + vn);
-		// collision impulse
-		var i = (-(1.0) * vn) / 2.0;
-		var impulse = mtd.normalized().multiplyScalar(i);
-
-		// change in momentum
-		this.velocity = this.velocity.add(impulse);
-		that.velocity = that.velocity.subtract(impulse);
 	}
 
 	collideBounds(level) {
@@ -176,12 +147,18 @@ class Character extends Entity {
 	}
 
 	onCollideBounds() {}
+
+	onCollideEntity(entity, onTop = false) {
+		if (onTop) {
+			this.isOnGround = true;
+		}
+	}
 }
 
 Character.MOVE_SPEED = 100;
 Character.JUMP_SPEED = 100;
 Character.GRAVITY = 9.81;
-Character.PIXELS_PER_METER = 20;
+Character.PIXELS_PER_METER = 22;
 Character.RESTITUTION = 0.75;
 Character.WIDTH = 24;
 Character.HEIGHT = 42;
