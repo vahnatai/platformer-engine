@@ -109,10 +109,7 @@ class Character {
 
 	getBoundingShape() {
 		return new RectangleShape(
-			{
-				x: this.position.x,
-				y: this.position.y,
-			},
+			this.position.clone(),
 			Character.WIDTH,
 			Character.HEIGHT
 		);

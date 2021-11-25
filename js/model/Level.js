@@ -1,4 +1,5 @@
 import RectangleShape from './shape/RectangleShape.js';
+import Vector from './Vector.js';
 
 class Level {
 	constructor(id, x, y, isSecret, paths) {
@@ -10,7 +11,12 @@ class Level {
 	}
 
 	getGeometry() {
-		return [new RectangleShape({x: 200, y: 400}, 100, 100)];
+		return [
+			new RectangleShape(new Vector(200, 500), 100, 50),
+			new RectangleShape(new Vector(600, 500), 100, 50),
+			new RectangleShape(new Vector(1000, 500), 100, 50),
+			new RectangleShape(new Vector(1400, 500), 100, 50),
+		];
 	}
 
 	getStartCoords() {
@@ -25,7 +31,7 @@ class Level {
 		return {
 			minX: 0,
 			minY: 0,
-			maxX: 800,
+			maxX: 1600,
 			maxY: 580,
 		};
 	}
