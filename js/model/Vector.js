@@ -42,6 +42,10 @@ class Vector {
 		var y = (this.y * scalar);
 		return new Vector(x, y);
 	}
+
+	clone() {
+		return new Vector(this.x, this.y);
+	}
 }
 
 export default Vector;
