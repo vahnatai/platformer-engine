@@ -1,13 +1,19 @@
+import EntityCamera from './EntityCamera.js';
 import View from './View.js';
 
 class LevelView extends View {
 	constructor(window, canvas, level, character) {
 		super(window, canvas);
+		this.camera = new EntityCamera(character, canvas.width, canvas.height);
 		this.level = level;
 		this.character = character;
 		this.sprites = {
 			main: View.loadImage('lildude_l.png'),
 		};
+	}
+
+	gameCoordsToViewCoords(position) {
+		return this.camera.levelToCamera(position);
 	}
 
 	renderBackground() {
@@ -21,15 +27,17 @@ class LevelView extends View {
 		this.context.strokeText('StartPOS: ' + JSON.stringify(this.level.getStartCoords()), 370, 500);
 		this.context.strokeText('POS: ' + JSON.stringify(this.character.position), 370, 520);
 		this.context.strokeText('on ground: ' + JSON.stringify(this.character.isOnGround), 370, 540);
-
-		this.context.fillStyle = '#444444';
-		const floorHeight = this.canvas.height - this.level.getFloorHeight();
-		this.context.fillRect(0, floorHeight, this.canvas.width, this.level.getFloorHeight());
 	}
 
 	renderGeometry() {
+		// render floor
+		this.context.fillStyle = '#444444';
+		const floorPos = this.camera.levelYToCamera(this.canvas.height - this.level.getFloorHeight());
+		this.context.fillRect(0, floorPos, this.canvas.width, this.level.getFloorHeight());
+
+		// render shapes
 		this.level.getGeometry().forEach((shape) => {
-			const {x, y} = this.gameCoordsToViewCoords(shape.getX(), shape.getY());
+			const {x, y} = this.gameCoordsToViewCoords(shape.position);
 			const width = shape.getWidth();
 			const height = shape.getHeight();
 			this.context.fillStyle = '#774444';
@@ -38,7 +46,7 @@ class LevelView extends View {
 	}
 
 	renderCharacter(debugBounds = false) {
-		const {x, y} = this.gameCoordsToViewCoords(this.character.getX(), this.character.getY());
+		const {x, y} = this.gameCoordsToViewCoords(this.character.position);
 		const sprite = this.sprites.main;
 
 		// sprite
@@ -54,6 +62,7 @@ class LevelView extends View {
 	render(debugMode = false) {
 		super.render();
 
+		this.camera.update();
 		this.renderBackground();
 		this.renderGeometry();
 		this.renderCharacter(debugMode);

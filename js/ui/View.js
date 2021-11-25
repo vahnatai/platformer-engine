@@ -20,7 +20,8 @@ class View {
 		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
-	gameCoordsToViewCoords(x, y) {
+	gameCoordsToViewCoords(position) {
+		const {x, y} = position;
 		return {x, y};
 	}
 
