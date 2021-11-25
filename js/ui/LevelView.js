@@ -10,6 +10,10 @@ class LevelView extends View {
 		this.sprites = {
 			main: View.loadImage('lildude_l.png'),
 		};
+		this.debug = {
+			lastX: character.position.x,
+			lastY: character.position.y,
+		};
 	}
 
 	gameCoordsToViewCoords(position) {
@@ -17,16 +21,13 @@ class LevelView extends View {
 	}
 
 	renderBackground() {
+		this.context.font = '10px sans-serif';
 		this.context.lineWidth = 2;
 		this.context.strokeStyle = '#444444';
 		this.context.strokeText('LEVEL VIEW', 375, 300);
-
 		this.context.lineWidth = 1;
 		this.context.strokeStyle = '#000000';
 		this.context.strokeText(JSON.stringify(this.level.id), 390, 400);
-		this.context.strokeText('StartPOS: ' + JSON.stringify(this.level.getStartCoords()), 370, 500);
-		this.context.strokeText('POS: ' + JSON.stringify(this.character.position), 370, 520);
-		this.context.strokeText('on ground: ' + JSON.stringify(this.character.isOnGround), 370, 540);
 	}
 
 	renderGeometry() {
@@ -59,6 +60,24 @@ class LevelView extends View {
 		}
 	}
 
+	renderDebugOverlay() {
+		const x = 30;
+		const y = 30;
+		this.context.lineWidth = 1;
+		this.context.font = '15px monospace';
+		this.context.fillStyle = '#000000';
+		this.context.fillText('Level: ' + JSON.stringify(this.level.id), x, y);
+		this.context.fillText('Start Position: ' + JSON.stringify(this.level.getStartCoords()), x, y+20);
+		this.context.fillText('Position: ' + JSON.stringify(this.character.position.round()), x, y+40);
+		this.context.fillText('Velocity: ' + JSON.stringify(this.character.velocity.round()), x, y+60);
+		this.context.fillText('Acceleration: ' + JSON.stringify(this.character.acceleration.round()), x, y+80);
+		this.context.fillText('On ground: ' + JSON.stringify(this.character.isOnGround), x, y+100);
+		this.context.fillText('DX: ' + JSON.stringify(this.debug.lastX - this.character.position.x), x, y+120);
+		this.context.fillText('DY: ' + JSON.stringify(this.debug.lastY - this.character.position.y), x, y+140);
+		this.debug.lastX = this.character.position.x;
+		this.debug.lastY = this.character.position.y;
+	}
+
 	render(debugMode = false) {
 		super.render();
 
@@ -66,6 +85,7 @@ class LevelView extends View {
 		this.renderBackground();
 		this.renderGeometry();
 		this.renderCharacter(debugMode);
+		if (debugMode) this.renderDebugOverlay();
 	}
 }
 
