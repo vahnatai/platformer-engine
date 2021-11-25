@@ -36,7 +36,7 @@ class LevelView extends View {
 		this.context.fillRect(0, floorPos, this.canvas.width, this.level.getFloorHeight());
 
 		// render shapes
-		this.level.getGeometry().forEach((shape) => {
+		this.level.getGeometry().forEach(({shape}) => {
 			const {x, y} = this.gameCoordsToViewCoords(shape.position);
 			const width = shape.getWidth();
 			const height = shape.getHeight();

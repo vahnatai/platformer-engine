@@ -1,5 +1,4 @@
-import RectangleShape from './shape/RectangleShape.js';
-import Vector from './Vector.js';
+import Platform from './entity/Platform.js';
 
 class Level {
 	constructor(id, x, y, isSecret, paths) {
@@ -12,10 +11,10 @@ class Level {
 
 	getGeometry() {
 		return [
-			new RectangleShape(new Vector(200, 500), 100, 50),
-			new RectangleShape(new Vector(600, 500), 100, 50),
-			new RectangleShape(new Vector(1000, 500), 100, 50),
-			new RectangleShape(new Vector(1400, 500), 100, 50),
+			new Platform(200, 500, 100),
+			new Platform(600, 500, 100),
+			new Platform(1000, 500, 100),
+			new Platform(1400, 500, 100),
 		];
 	}
 
