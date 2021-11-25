@@ -43,6 +43,10 @@ class Vector {
 		return new Vector(x, y);
 	}
 
+	round() {
+		return new Vector(Math.round(this.x), Math.round(this.y));
+	}
+
 	clone() {
 		return new Vector(this.x, this.y);
 	}
