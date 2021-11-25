@@ -71,7 +71,7 @@ class LevelView extends View {
 		this.context.fillText('Position: ' + JSON.stringify(this.character.position.round()), x, y+40);
 		this.context.fillText('Velocity: ' + JSON.stringify(this.character.velocity.round()), x, y+60);
 		this.context.fillText('Acceleration: ' + JSON.stringify(this.character.acceleration.round()), x, y+80);
-		this.context.fillText('On ground: ' + JSON.stringify(this.character.isOnGround), x, y+100);
+		this.context.fillText('On Ground: ' + JSON.stringify(this.character.isOnGround), x, y+100);
 		this.context.fillText('DX: ' + JSON.stringify(this.debug.lastX - this.character.position.x), x, y+120);
 		this.context.fillText('DY: ' + JSON.stringify(this.debug.lastY - this.character.position.y), x, y+140);
 		this.debug.lastX = this.character.position.x;
