@@ -1,4 +1,4 @@
-import Character from './Character.js';
+import Character from './entity/Character.js';
 import World from './World.js';
 
 class Game {
