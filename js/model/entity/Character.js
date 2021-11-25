@@ -161,6 +161,6 @@ Character.GRAVITY = 9.81;
 Character.PIXELS_PER_METER = 22;
 Character.RESTITUTION = 0.75;
 Character.WIDTH = 24;
-Character.HEIGHT = 42;
+Character.HEIGHT = 40;
 
 export default Character;
