@@ -75,7 +75,7 @@ class Character extends Entity {
 		this.position = this.position.add(this.velocity.multiplyScalar(speed * ms/1000));
 
 		if (level) {
-			this.collideBounds(level, Character.RESTITUTION);
+			this.collideBounds(level);
 			level.getGeometry().forEach((entity) => {
 				if (entity.isColliding(this)) {
 					entity.collide(this);
