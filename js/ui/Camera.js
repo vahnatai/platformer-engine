@@ -37,11 +37,11 @@ class Camera {
 	}
 
 	containsX(x) {
-		return (x > this.position - this.width/2) && (x < this.position + this.width/2);
+		return (x > this.position.x - this.width/2) && (x < this.position.x + this.width/2);
 	}
 
 	containsY(y) {
-		return (y > this.position - this.height/2) && (y < this.position + this.height/2);
+		return (y > this.position.y - this.height/2) && (y < this.position.y + this.height/2);
 	}
 
 	containsShape(shape) {

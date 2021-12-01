@@ -2,7 +2,7 @@ import Camera from './Camera.js';
 
 class EntityCamera extends Camera {
 	constructor(entity, width, height) {
-		super(entity.currentLevel, entity.position.x - width/2, entity.position.y - height/2, width, height);
+		super(entity.currentLevel, entity.position.x, entity.position.y, width, height);
 		this.entity = entity;
 	}
 

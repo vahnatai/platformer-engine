@@ -10,6 +10,11 @@ class LevelView extends View {
 		this.sprites = {
 			main: View.loadImage('lildude_l.png'),
 		};
+		this.backgroundLayers = {
+			stars: View.loadImage('bg-L0.png'),
+			water: View.loadImage('bg-L1.png'),
+			sand: View.loadImage('bg-L2.png'),
+		};
 		this.debug = {
 			lastX: character.position.x,
 			lastY: character.position.y,
@@ -21,21 +26,56 @@ class LevelView extends View {
 	}
 
 	renderBackground() {
-		this.context.font = '10px sans-serif';
-		this.context.lineWidth = 2;
-		this.context.strokeStyle = '#444444';
-		this.context.strokeText('LEVEL VIEW', 375, 300);
-		this.context.lineWidth = 1;
-		this.context.strokeStyle = '#000000';
-		this.context.strokeText(JSON.stringify(this.level.id), 390, 400);
+		// round because pixels are discrete units; decimals make the image fuzzy
+		let x = Math.round(this.camera.position.x + this.camera.width/2);
+		let y = Math.round(this.camera.position.y + this.camera.height/2);
+
+		// Static character, moving background
+		// save,
+		// translate before fill to offset the pattern,
+		// then restore position
+
+		// stars
+		this.context.save();
+		let parallaxX = Math.round(x/10);
+		let parallaxY = Math.round(y/10);
+		this.context.translate(-parallaxX, -parallaxY);
+		this.context.fillStyle = this.context.createPattern(this.backgroundLayers.stars, 'repeat');
+		this.context.fillRect(parallaxX, parallaxY, this.camera.width, this.camera.height);
+		this.context.restore();
+
+		//sea1
+		let OFFSET = 30; //tuck this layer a bit under the next one
+		let crestY = this.level.getBounds().maxY - (2 * this.backgroundLayers.water.height + this.backgroundLayers.sand.height) + OFFSET;
+		parallaxX = Math.round(x/3);
+		this.context.save();
+		this.context.translate(-parallaxX, -y);
+		this.context.fillStyle = this.context.createPattern(this.backgroundLayers.water, 'repeat');
+		this.context.fillRect(parallaxX, this.camera.levelYToCamera(crestY) + y,
+			this.canvas.width, this.backgroundLayers.water.height);
+		this.context.restore();
+		
+		//sea2
+		crestY = this.level.getBounds().maxY - (this.backgroundLayers.water.height + this.backgroundLayers.sand.height);
+		parallaxX = Math.round(x/2);
+		this.context.save();
+		this.context.translate(-parallaxX, -y);
+		this.context.fillStyle = this.context.createPattern(this.backgroundLayers.water, 'repeat');
+		this.context.fillRect(parallaxX, crestY + this.camera.height/2,
+			this.canvas.width, this.backgroundLayers.water.height);
+		this.context.restore();
+
+		//beach
+		crestY = this.level.getBounds().maxY - this.backgroundLayers.sand.height + this.level.getFloorHeight();
+		this.context.save();
+		this.context.translate(-x, -y);
+		this.context.fillStyle = this.context.createPattern(this.backgroundLayers.sand, 'repeat');
+		this.context.fillRect(x, crestY + this.camera.height/2 - this.level.getFloorHeight(),
+			this.canvas.width, this.backgroundLayers.sand.height + this.level.getFloorHeight());
+		this.context.restore();
 	}
 
 	renderGeometry() {
-		// render floor
-		this.context.fillStyle = '#444444';
-		const floorPos = this.camera.levelYToCamera(this.canvas.height - this.level.getFloorHeight());
-		this.context.fillRect(0, floorPos, this.canvas.width, this.level.getFloorHeight());
-
 		// render shapes
 		this.level.getGeometry().forEach(({shape}) => {
 			const {x, y} = this.gameCoordsToViewCoords(shape.position);
