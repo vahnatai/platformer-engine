@@ -3,7 +3,7 @@ import RectangleShape from '../shape/RectangleShape.js';
 import Vector from '../Vector.js';
 
 class Character extends Entity {
-	constructor (x, y, currentLevel) {
+	constructor(x, y, currentLevel) {
 		super('character', new RectangleShape(new Vector(x, y), Character.WIDTH, Character.HEIGHT));
 
 		this.currentLevel = currentLevel;
