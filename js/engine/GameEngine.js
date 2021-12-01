@@ -11,7 +11,7 @@ class GameEngine {
 	constructor (window, document, canvas, volumeInput, debugInput) {
 		this.document = document;
 		this.canvas = canvas;
-		this.game = new Game();
+		this.game = new Game(() => this.exitToMap());
 		this.mapView = new MapView(window, canvas, this.game.world, this.game.character);
 		this.view = new IntroView(window, canvas);
 		this.mapControlListener = new MapControlListener(document, this.game, () => this.enterLevel());

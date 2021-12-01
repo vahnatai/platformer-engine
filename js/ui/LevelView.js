@@ -1,4 +1,5 @@
 import EntityCamera from './EntityCamera.js';
+import Objective from '../model/entity/Objective.js';
 import View from './View.js';
 
 class LevelView extends View {
@@ -9,6 +10,7 @@ class LevelView extends View {
 		this.character = character;
 		this.sprites = {
 			main: View.loadImage('lildude_l.png'),
+			objective: View.loadImage('heart.png'),
 		};
 		this.backgroundLayers = {
 			stars: View.loadImage('bg-L0.png'),
@@ -100,6 +102,14 @@ class LevelView extends View {
 		}
 	}
 
+	renderObjective() {
+		const {x, y} = this.gameCoordsToViewCoords(this.level.getObjective().position);
+		const sprite = this.sprites.objective;
+
+		// sprite
+		this.context.drawImage(sprite, Math.round(x - Objective.WIDTH/2), Math.round(y - Objective.HEIGHT/2), Objective.WIDTH, Objective.HEIGHT);
+	}
+
 	renderDebugOverlay() {
 		const x = 30;
 		const y = 30;
@@ -132,6 +142,7 @@ class LevelView extends View {
 		this.camera.update();
 		this.renderBackground();
 		this.renderGeometry();
+		this.renderObjective();
 		this.renderCharacter(debugMode);
 		if (debugMode) this.renderDebugOverlay();
 	}

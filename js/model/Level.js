@@ -1,12 +1,14 @@
+import Objective from './entity/Objective.js';
 import Platform from './entity/Platform.js';
 
 class Level {
-	constructor(id, x, y, isSecret, paths) {
+	constructor(id, x, y, isSecret, paths, onCompletion) {
 		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.isSecret = isSecret;
 		this.paths = paths;
+		this.onCompletion = onCompletion;
 	}
 
 	getGeometry() {
@@ -26,6 +28,10 @@ class Level {
 		];
 	}
 
+	getObjective() {
+		return new Objective(1820, 110, this);
+	}
+
 	getStartCoords() {
 		return {x: 500, y: 540};
 	}
@@ -41,6 +47,11 @@ class Level {
 			maxX: 2000,
 			maxY: 580,
 		};
+	}
+
+	complete() {
+		console.log('level complete!');
+		this.onCompletion();
 	}
 }
 

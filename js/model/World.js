@@ -1,7 +1,7 @@
 import Level from './Level.js';
 
 class World {
-	constructor () {
+	constructor (onLevelCompletion) {
 		const levelData = [
 			{
 				id: '1-1',
@@ -136,7 +136,10 @@ class World {
 			},
 		];
 		this.levels = {};
-		levelData.forEach((data) => {this.levels[data.id] = new Level(...Object.values(data));});
+		levelData.forEach((data) => {
+			data.onCompletion = onLevelCompletion;
+			this.levels[data.id] = new Level(...Object.values(data));
+		});
 	}
 
 	addPath(srcLevelId, destLevelId, isSecret) {

@@ -2,8 +2,8 @@ import Character from './entity/Character.js';
 import World from './World.js';
 
 class Game {
-	constructor() {
-		this.world = new World();
+	constructor(onLevelCompletion) {
+		this.world = new World(onLevelCompletion);
 		const {level, x: startX, y: startY} = this.world.getStartPosition();
 		this.character = new Character(startX, startY, level);
 		this.currentLevel = null;
