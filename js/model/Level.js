@@ -12,14 +12,22 @@ class Level {
 	getGeometry() {
 		return [
 			new Platform(200, 500, 100),
-			new Platform(600, 500, 100),
-			new Platform(1000, 500, 100),
-			new Platform(1400, 500, 100),
+			new Platform(700, 500, 100),
+			new Platform(1200, 500, 100),
+			new Platform(1700, 500, 100),
+			
+			new Platform(450, 375, 100),
+			new Platform(1000, 375, 100),
+			new Platform(1500, 375, 100),
+
+			new Platform(100, 250, 100),
+
+			new Platform(1100, 150, 1500),
 		];
 	}
 
 	getStartCoords() {
-		return {x: 500, y: 580};
+		return {x: 500, y: 540};
 	}
 
 	getFloorHeight() {
@@ -30,7 +38,7 @@ class Level {
 		return {
 			minX: 0,
 			minY: 0,
-			maxX: 1600,
+			maxX: 2000,
 			maxY: 580,
 		};
 	}
