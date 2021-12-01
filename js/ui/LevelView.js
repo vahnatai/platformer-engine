@@ -63,17 +63,25 @@ class LevelView extends View {
 	renderDebugOverlay() {
 		const x = 30;
 		const y = 30;
+		const width = 350;
+		const height = 140;
+
+		this.context.globalAlpha = 0.75;
+		this.context.fillStyle = '#AAAAAA';
+		this.context.fillRect(x, y, width, height);
+		this.context.globalAlpha = 1;
+
 		this.context.lineWidth = 1;
 		this.context.font = '15px monospace';
 		this.context.fillStyle = '#000000';
-		this.context.fillText('Level: ' + JSON.stringify(this.level.id), x, y);
-		this.context.fillText('Start Position: ' + JSON.stringify(this.level.getStartCoords()), x, y+20);
-		this.context.fillText('Position: ' + JSON.stringify(this.character.position.round()), x, y+40);
+		this.context.fillText('Level: ' + JSON.stringify(this.level.id), x, y+15);
+		this.context.fillText('Start Position: ' + JSON.stringify(this.level.getStartCoords()), x, y+30);
+		this.context.fillText('Position: ' + JSON.stringify(this.character.position.round()), x, y+45);
 		this.context.fillText('Velocity: ' + JSON.stringify(this.character.velocity.round()), x, y+60);
-		this.context.fillText('Acceleration: ' + JSON.stringify(this.character.acceleration.round()), x, y+80);
-		this.context.fillText('On Ground: ' + JSON.stringify(this.character.isOnGround), x, y+100);
-		this.context.fillText('DX: ' + JSON.stringify(this.debug.lastX - this.character.position.x), x, y+120);
-		this.context.fillText('DY: ' + JSON.stringify(this.debug.lastY - this.character.position.y), x, y+140);
+		this.context.fillText('Acceleration: ' + JSON.stringify(this.character.acceleration.round()), x, y+75);
+		this.context.fillText('On Ground: ' + JSON.stringify(this.character.isOnGround), x, y+90);
+		this.context.fillText('DX: ' + JSON.stringify(this.debug.lastX - this.character.position.x), x, y+105);
+		this.context.fillText('DY: ' + JSON.stringify(this.debug.lastY - this.character.position.y), x, y+120);
 		this.debug.lastX = this.character.position.x;
 		this.debug.lastY = this.character.position.y;
 	}
