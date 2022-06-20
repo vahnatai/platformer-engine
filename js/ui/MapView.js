@@ -51,17 +51,19 @@ class MapView extends View {
 	}
 
 	renderPaths() {
-		this.world.getLevels().map(({
+		this.world.getLevels().forEach(({
 			x,
 			y,
 			paths,
 		}) => {
-			paths.map((path) => {
+			paths.forEach((path) => {
 				const {
 					x: toX,
 					y: toY,
 				} = this.world.getLevel(path.destination);
-				this.renderPath(x, y, toX, toY, path.isSecret);
+				if (!path.isHidden) {
+					this.renderPath(x, y, toX, toY, path.isSecret);
+				}
 			});
 		});
 	}

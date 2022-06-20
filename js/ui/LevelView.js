@@ -103,11 +103,13 @@ class LevelView extends View {
 	}
 
 	renderObjective() {
-		const {x, y} = this.gameCoordsToViewCoords(this.level.getObjective().position);
-		const sprite = this.sprites.objective;
-
-		// sprite
-		this.context.drawImage(sprite, Math.round(x - Objective.WIDTH/2), Math.round(y - Objective.HEIGHT/2), Objective.WIDTH, Objective.HEIGHT);
+		this.level.getObjectives().forEach(objective => {
+			const {x, y} = this.gameCoordsToViewCoords(objective.position);
+			const sprite = this.sprites.objective;
+			
+			// sprite
+			this.context.drawImage(sprite, Math.round(x - Objective.WIDTH/2), Math.round(y - Objective.HEIGHT/2), Objective.WIDTH, Objective.HEIGHT);
+		});
 	}
 
 	renderDebugOverlay() {

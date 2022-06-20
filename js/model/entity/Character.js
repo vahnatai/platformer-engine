@@ -81,10 +81,11 @@ class Character extends Entity {
 					entity.collide(this);
 				}
 			});
-			const objective = level.getObjective();
-			if (objective.isColliding(this)) {
-				objective.collide(this);
-			}
+			level.getObjectives().forEach(objective => {
+				if (objective.isColliding(this)) {
+					objective.collide(this);
+				}
+			});
 		}
 
 		this.velocity = this.velocity.add(this.acceleration.multiplyScalar(ms/1000));

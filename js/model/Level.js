@@ -1,5 +1,6 @@
 import Objective from './entity/Objective.js';
 import Platform from './entity/Platform.js';
+import Path from './Path.js';
 
 class Level {
 	constructor(id, x, y, isSecret, paths, onCompletion) {
@@ -7,7 +8,8 @@ class Level {
 		this.x = x;
 		this.y = y;
 		this.isSecret = isSecret;
-		this.paths = paths;
+
+		this.paths = paths.map(path => new Path(...Object.values(path)));
 		this.onCompletion = onCompletion;
 	}
 
@@ -28,8 +30,12 @@ class Level {
 		];
 	}
 
-	getObjective() {
-		return new Objective(1820, 110, this);
+	getObjectives() {
+		const objectives = [new Objective(1820, 510, this, 0)];
+		if (this.paths.length > 1) {
+			objectives.push(new Objective(1820, 110, this, 1));
+		}
+		return objectives;
 	}
 
 	getStartCoords() {
