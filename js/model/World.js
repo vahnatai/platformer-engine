@@ -185,6 +185,7 @@ class World {
 			// if current level is a dest, return direction back
 			return paths
 				.map((path) => {
+					if (path.isHidden) return null;
 					if (path.destination === level.id) {
 						const directions = {};
 						directions[path.directionBack] = id;
