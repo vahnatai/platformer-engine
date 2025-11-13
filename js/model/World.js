@@ -174,6 +174,7 @@ class World {
 			if (id === level.id) {
 				// current level, return all exits
 				return paths.map((path) => {
+					if (path.isHidden) return null;
 					const directions = {};
 					if (path.directionForth) {
 						directions[path.directionForth] = path.destination;

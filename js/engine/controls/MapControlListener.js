@@ -7,7 +7,6 @@ class MapControlListener extends ControlListener {
 		const onDirection = (direction) => {
 			const dest = game.getPathToWorldDirection(direction);
 			if (!dest) return;
-			if (dest.isHidden) return;
 			game.startWorldPath(dest);
 		};
 
