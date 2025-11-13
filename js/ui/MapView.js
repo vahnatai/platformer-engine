@@ -25,7 +25,9 @@ class MapView extends View {
 			x,
 			y,
 			isSecret,
+			isHidden,
 		}) => {
+			if (isHidden) return null;
 			this.context.lineWidth = 3;
 
 			this.context.beginPath();
@@ -47,7 +49,7 @@ class MapView extends View {
 			this.context.strokeStyle = isSecret ? '#00AA05' : '#444444';
 			this.context.fillText(id, x-9, y-15);
 			this.context.strokeText(id, x-9, y-15);
-		});
+		}).filter(Boolean);
 	}
 
 	renderPaths() {

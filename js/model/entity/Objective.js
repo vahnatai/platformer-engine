@@ -14,6 +14,8 @@ class Objective extends Entity{
 		const path = this.currentLevel.paths[this.pathNumber];
 		if (path) {
 			path.reveal();
+			const destLevel = this.currentLevel.world.getLevel(path.destination);
+			destLevel.reveal();
 		}
 	}
 }

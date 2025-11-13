@@ -8,6 +8,7 @@ class World {
 				x: 200,
 				y: 530,
 				isSecret: false,
+				isHidden: false,
 				paths: [
 					{
 						destination: '1-2',
@@ -22,6 +23,7 @@ class World {
 				x: 550,
 				y: 530,
 				isSecret: false,
+				isHidden: true,
 				paths: [
 					{
 						destination: '1-3',
@@ -36,6 +38,7 @@ class World {
 				x: 700,
 				y: 360,
 				isSecret: false,
+				isHidden: true,
 				paths: [
 					{
 						destination: '1-4',
@@ -56,6 +59,7 @@ class World {
 				x: 430,
 				y: 360,
 				isSecret: true,
+				isHidden: true,
 				paths: [
 					{
 						destination: '1-5',
@@ -70,6 +74,7 @@ class World {
 				x: 690,
 				y: 250,
 				isSecret: false,
+				isHidden: true,
 				paths: [
 					{
 						destination: '1-5',
@@ -84,6 +89,7 @@ class World {
 				x: 450,
 				y: 235,
 				isSecret: false,
+				isHidden: true,
 				paths: [
 					{
 						destination: '1-6',
@@ -104,6 +110,7 @@ class World {
 				x: 240,
 				y: 90,
 				isSecret: true,
+				isHidden: true,
 				paths: [
 					{
 						destination: '1-7',
@@ -118,6 +125,7 @@ class World {
 				x: 150,
 				y: 330,
 				isSecret: false,
+				isHidden: true,
 				paths: [
 					{
 						destination: '1-7',
@@ -132,12 +140,14 @@ class World {
 				x: 125,
 				y: 220,
 				isSecret: false,
+				isHidden: true,
 				paths: [],
 			},
 		];
 		this.levels = {};
 		levelData.forEach((data) => {
 			data.onCompletion = onLevelCompletion;
+			data.world = this;
 			this.levels[data.id] = new Level(...Object.values(data));
 		});
 	}

@@ -3,11 +3,13 @@ import Platform from './entity/Platform.js';
 import Path from './Path.js';
 
 class Level {
-	constructor(id, x, y, isSecret, paths, onCompletion) {
+	constructor(id, x, y, isSecret, isHidden, paths, onCompletion, world) {
+		this.world = world;
 		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.isSecret = isSecret;
+		this.isHidden = isHidden;
 
 		this.paths = paths.map(path => new Path(...Object.values(path)));
 		this.onCompletion = onCompletion;
@@ -53,6 +55,10 @@ class Level {
 			maxX: 2000,
 			maxY: 580,
 		};
+	}
+
+	reveal() {
+		this.isHidden = false;
 	}
 
 	complete() {
