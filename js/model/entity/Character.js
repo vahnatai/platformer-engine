@@ -120,7 +120,8 @@ class Character extends Entity {
 	}
 
 	collideBounds(level) {
-		const {minX, minY, maxX, maxY} = level.getBounds();
+		let {minX, minY, maxX, maxY} = level.getBounds();
+		minY -= 30; // allow some head room
 
 		var collided = false;
             
