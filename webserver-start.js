@@ -9,7 +9,11 @@ const process = require('process');
 
 const server = http.createServer(async function (request, response) {
 	const url = request.url === '/' ? '/index.html' : request.url;
-	const relPath = path.join(...(url.split('/')));
+	const relPath = path.join(...(
+		url
+			.replace(/\.\./g, '') // guard against directory snooping
+			.split('/')
+	));
 	const fullPath = path.resolve(relPath);
 
 	try {
