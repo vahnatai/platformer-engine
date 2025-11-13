@@ -42,3 +42,6 @@ const server = http.createServer(async function (request, response) {
 });
 
 server.listen(process.env.PORT);
+
+console.log(`Serving on port ${process.env.PORT}`);
+
