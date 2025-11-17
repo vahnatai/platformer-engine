@@ -96,18 +96,31 @@ class LevelView extends View {
 		this.context.drawImage(sprite, Math.round(x - sprite.width/2), Math.round(y - sprite.height/2));
 
 		if (debugBounds) {
+			// bounds
 			this.context.strokeStyle = '#AA0000';
 			const shape = this.character.getBoundingShape();
 			this.context.strokeRect(x - shape.getWidth()/2, y - shape.getHeight()/2, shape.getWidth(), shape.getHeight());
 
+			// velocity
 			const {x: velX, y: velY} = this.character.velocity;
 			if (velX || velY) {
 				this.renderVector(x, y, x+velX, y+velY, '#DD5555');
 			}
 
+			// acceleration
 			const {x: accX, y: accY} = this.character.acceleration;
 			if (accX || accY) {
 				this.renderVector(x, y, x+accX, y+accY, '#AADD00');
+			}
+
+			// grounded
+			if (this.character.isOnGround) {
+				this.context.strokeStyle = '#00AA00';
+				this.context.strokeWidth = 10;
+				this.context.beginPath();
+				this.context.moveTo(x - shape.getWidth(), y + shape.getHeight()/2);
+				this.context.lineTo(x + shape.getWidth(), y + shape.getHeight()/2);
+				this.context.stroke();
 			}
 		}
 	}
