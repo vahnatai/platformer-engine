@@ -142,8 +142,8 @@ class MapView extends View {
 		super.render();
 		
 		this.renderBackground();
-		this.renderLevels();
 		this.renderPaths();
+		this.renderLevels();
 		this.renderCharacter();
 
 		this.context.strokeStyle = '#550500';
