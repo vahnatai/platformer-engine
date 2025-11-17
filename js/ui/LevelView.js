@@ -99,7 +99,38 @@ class LevelView extends View {
 			this.context.strokeStyle = '#AA0000';
 			const shape = this.character.getBoundingShape();
 			this.context.strokeRect(x - shape.getWidth()/2, y - shape.getHeight()/2, shape.getWidth(), shape.getHeight());
+
+			const {x: velX, y: velY} = this.character.velocity;
+			if (velX || velY) {
+				this.renderVector(x, y, x+velX, y+velY, '#DD5555');
+			}
+
+			const {x: accX, y: accY} = this.character.acceleration;
+			if (accX || accY) {
+				this.renderVector(x, y, x+accX, y+accY, '#AADD00');
+			}
 		}
+	}
+
+	renderVector(fromX, fromY, toX, toY, strokeStyle) {
+		this.context.strokeStyle = strokeStyle;
+		this.context.strokeWidth = 1;
+		this.context.beginPath();
+
+		// line
+		this.context.moveTo(fromX, fromY);
+		this.context.lineTo(toX, toY);
+		
+		// arrowhead
+		const headLength = 30;
+		const dx = toX - fromX;
+		const dy = toY - fromY;
+		const angle = Math.atan2(dy, dx);
+		this.context.lineTo(toX - headLength * Math.cos(angle - Math.PI / 6), toY - headLength * Math.sin(angle - Math.PI / 6));
+		this.context.moveTo(toX, toY);
+		this.context.lineTo(toX - headLength * Math.cos(angle + Math.PI / 6), toY - headLength * Math.sin(angle + Math.PI / 6));
+
+		this.context.stroke();
 	}
 
 	renderObjective() {
