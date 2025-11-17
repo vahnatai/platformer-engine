@@ -8,7 +8,7 @@ import MapView from '../ui/MapView.js';
 import SoundEngine from './SoundEngine.js';
 
 class GameEngine {
-	constructor (window, document, canvas, volumeInput, debugInput) {
+	constructor (window, document, canvas, musicVolumeInput, fxVolumeInput, debugInput) {
 		this.document = document;
 		this.canvas = canvas;
 		this.game = new Game(() => this.exitToMap());
@@ -17,8 +17,11 @@ class GameEngine {
 		this.mapControlListener = new MapControlListener(document, this.game, () => this.enterLevel());
 		this.controlListener = new IntroControlListener(document, this.game, () => this.exitToMap());
 		
-		volumeInput.value = localStorage.volume ? JSON.parse(localStorage.volume) : GameEngine.DEFAULT_GAIN;
-		this.soundEngine = new SoundEngine(document, volumeInput.value);
+		musicVolumeInput.value = localStorage.musicVolume ? JSON.parse(localStorage.musicVolume) : GameEngine.DEFAULT_GAIN;
+		fxVolumeInput.value = localStorage.fxVolume ? JSON.parse(localStorage.fxVolume) : GameEngine.DEFAULT_GAIN;
+
+		this.soundEngine = new SoundEngine(document, musicVolumeInput.value, fxVolumeInput.value);
+
 		this.isDebug = debugInput.checked = localStorage.isDebug ? JSON.parse(localStorage.isDebug) : GameEngine.DEFAULT_DEBUG;
 
 		debugInput.addEventListener('input', (event) => {
@@ -26,9 +29,14 @@ class GameEngine {
 			this.isDebug = event.target.checked;
 		});
 
-		volumeInput.addEventListener('input', (event) => {
-			localStorage.volume = event.target.value;
-			this.soundEngine.setVolume(event.target.value);
+		musicVolumeInput.addEventListener('input', (event) => {
+			localStorage.musicVolume = event.target.value;
+			this.soundEngine.setMusicVolume(event.target.value);
+		});
+
+		fxVolumeInput.addEventListener('input', (event) => {
+			localStorage.fxVolume = event.target.value;
+			this.soundEngine.setFXVolume(event.target.value);
 		});
 	}
 
@@ -41,7 +49,7 @@ class GameEngine {
 		this.controlListener.start();
 
 		await this.soundEngine.loadAllSounds();
-		this.soundEngine.playAudio('INTRO', true);
+		this.soundEngine.playMusic('INTRO', true);
 
 		const interval = setInterval(() => {
 			var time = new Date().getTime();
@@ -75,14 +83,14 @@ class GameEngine {
 			this.game,
 			(actionName) => {
 				if (actionName == 'jump' && this.game.character.isOnGround) {
-					this.soundEngine.playAudio('JUMP');
+					this.soundEngine.playFX('JUMP');
 				}
 			},
 			() => this.exitToMap()
 		);
 		this.controlListener.start();
 		this.soundEngine.stopAll();
-		this.soundEngine.playAudio('LEVEL_1', true);
+		this.soundEngine.playMusic('LEVEL_1', true);
 	}
 
 	exitToMap() {
@@ -92,7 +100,7 @@ class GameEngine {
 		this.controlListener = this.mapControlListener;
 		this.controlListener.start();
 		this.soundEngine.stopAll();
-		this.soundEngine.playAudio('MAP', true);
+		this.soundEngine.playMusic('MAP', true);
 	}
 
 	simulate(dt) {

@@ -1,39 +1,66 @@
 class SoundEngine {
-	constructor(document, startVolume) {
+	constructor(document, startMusicVolume, startFXVolume) {
 		this.document = document;
 
-		this.sounds = {};
+		this.music = {};
+		this.effects = {};
 		this.playing = {};
 		this.context = new (window.AudioContext || window.webkitAudioContext)();
-		this.gainNode = this.context.createGain();
-		this.gainNode.gain.value = startVolume;
-		this.gainNode.connect(this.context.destination);
+
+		this.musicGainNode = this.context.createGain();
+		this.musicGainNode.gain.value = startMusicVolume;
+		this.musicGainNode.connect(this.context.destination);
+
+		this.fxGainNode = this.context.createGain();
+		this.fxGainNode.gain.value = startFXVolume;
+		this.fxGainNode.connect(this.context.destination);
 	}
 
-	getVolume() {
-		return this.gainNode.gain.value;
+	getMusicVolume() {
+		return this.musicGainNode.gain.value;
 	}
 
-	setVolume(value) {
-		this.gainNode.gain.value = value;
+	setMusicVolume(value) {
+		this.musicGainNode.gain.value = value;
+	}
+
+	getFXVolume() {
+		return this.fxGainNode.gain.value;
+	}
+
+	setFXVolume(value) {
+		this.fxGainNode.gain.value = value;
 	}
 
 	async loadAllSounds() {
-		this.sounds = {
+		this.music = {
 			INTRO: await this.loadAudio('music/hello_odd.mp3'),
 			MAP: await this.loadAudio('music/happy_outback.mp3'),
 			LEVEL_1: await this.loadAudio('music/open_breeze.mp3'),
+		};
+		this.effects = {
 			JUMP: await this.loadAudio('effects/jump.wav'),
 		};
 	}
 
-	async playAudio(name, loop = false) {
-		const buffer = this.sounds[name];
-		if (!buffer) {throw new Error(`cound not play audio "${name}"`);}
-		if (this.playing[name]) {throw new Error(`playing same audio twice "${name}"`);}
+	async playMusic(name, loop = true) {
+		const data = this.music[name];
+		if (!data) {throw new Error(`could not find music "${name}"`);}
+		if (this.playing[name]) {console.warn(`playing same music twice "${name}"`);}
+		
+		return this.playAudio(name, data, this.musicGainNode, loop);
+	}
+	
+	async playFX(name, loop = false) {
+		const data = this.effects[name];
+		if (!data) {throw new Error(`could not find effect "${name}"`);}
+		return this.playAudio(name, data, this.fxGainNode, loop);
+	}
+
+	async playAudio(name, data, gainNode, loop = false) {
 		const source = this.context.createBufferSource();
-		source.buffer = await this.context.decodeAudioData(buffer.slice(0));
-		source.connect(this.gainNode);
+		source.buffer = await this.context.decodeAudioData(data.slice(0));
+		source.connect(gainNode);
 		source.loop = loop;
 		this.playing[name] = source;
 		if (!loop) {
