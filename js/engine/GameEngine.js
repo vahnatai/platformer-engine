@@ -70,7 +70,16 @@ class GameEngine {
 		}
 		this.view = new LevelView(this.window, this.canvas, level, this.game.character);
 		this.controlListener.stop();
-		this.controlListener = new LevelControlListener(document, this.game, () => this.exitToMap());
+		this.controlListener = new LevelControlListener(
+			document,
+			this.game,
+			(actionName) => {
+				if (actionName == 'jump' && this.game.character.isOnGround) {
+					this.soundEngine.playAudio('JUMP');
+				}
+			},
+			() => this.exitToMap()
+		);
 		this.controlListener.start();
 		this.soundEngine.stopAll();
 		this.soundEngine.playAudio('LEVEL_1', true);

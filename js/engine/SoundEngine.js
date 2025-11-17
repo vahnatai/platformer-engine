@@ -23,6 +23,7 @@ class SoundEngine {
 			INTRO: await this.loadAudio('music/hello_odd.mp3'),
 			MAP: await this.loadAudio('music/happy_outback.mp3'),
 			LEVEL_1: await this.loadAudio('music/open_breeze.mp3'),
+			JUMP: await this.loadAudio('effects/jump.wav'),
 		};
 	}
 
@@ -44,8 +45,10 @@ class SoundEngine {
 
 	stopAudio(name) {
 		const source = this.playing[name];
-		source.stop();
-		delete this.playing[name];
+		if (source) {
+			source.stop();
+			delete this.playing[name];
+		}
 		return source;
 	}
 

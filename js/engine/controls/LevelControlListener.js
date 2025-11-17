@@ -1,7 +1,7 @@
 import ControlListener from './ControlListener.js';
 
 class LevelControlListener extends ControlListener {
-	constructor(document, game, exitLevel) {
+	constructor(document, game, onAction, exitLevel) {
 		super(document);
 
 		this.isWalkingLeft = false;
@@ -19,6 +19,7 @@ class LevelControlListener extends ControlListener {
 		};
 
 		const onJump = () => {
+			onAction('jump');
 			game.jump();
 		};
 
