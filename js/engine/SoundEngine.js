@@ -83,8 +83,8 @@ class SoundEngine {
 		Object.keys(this.playing).forEach((name) => this.stopAudio(name));
 	}
 
-	async loadAudio(path) {
-		const fullPath = '/assets/audio/' + path;
+	async loadAudio(filePath) {
+		const fullPath = '/assets/audio/' + filePath.replace(/\.\./g, ''); // guard against directory snooping
 		const result = await fetch(fullPath);
 		const buffer = await result.arrayBuffer();
 		return buffer;
