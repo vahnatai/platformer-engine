@@ -64,16 +64,17 @@ class Character extends Entity {
 	}
 	walkRight() {
 		this.setVelocity(Character.MOVE_SPEED, this.velocity.y);
+	}
 
 	stopWalking() {
-		this.setVelocity(0, 0);
+		// no-op for now
 	}
 
 	stop() {
 		this.setVelocity(0, 0);
 	}
 
-	computePosition(level, ms) {
+	computePosition(level, ms, hasFriction) {
 		const speed = 5;
 		this.position = this.position.add(this.velocity.multiplyScalar(speed * ms/1000));
 
@@ -91,12 +92,23 @@ class Character extends Entity {
 			});
 		}
 
-		this.velocity = this.velocity.add(this.acceleration.multiplyScalar(ms/1000));
+		if (hasFriction) {
+			let friction = Character.FRICTION;
+			if (this.velocity.x > 0) {
+				friction = -friction;
+			} else if (this.velocity.x === 0) {
+				friction = 0;
+			}
+
+			this.velocity = this.velocity.add(new Vector(friction, 0));
+		}
+
+		this.velocity = this.velocity.add(this.acceleration.multiplyScalar(ms/1000)); // scalar speed mult like position has??
 	}
 
 	computeWorldMovement(ms) {
 		if (this.destination) {
-			this.computePosition(null, ms);
+			this.computePosition(null, ms, false);
 			const arrivalSensitivity = 5;
 			if (Math.abs(this.destination.x - this.position.x) < arrivalSensitivity && Math.abs(this.destination.y - this.position.y) < arrivalSensitivity) {
 				// set curr to dest
@@ -111,7 +123,7 @@ class Character extends Entity {
 	}
 
 	computeLevelMovement(level, ms) {
-		this.computePosition(level, ms);
+		this.computePosition(level, ms, true);
 	}
 
 	getBoundingShape() {
@@ -169,6 +181,7 @@ Character.JUMP_SPEED = 100;
 Character.GRAVITY = 9.81;
 Character.PIXELS_PER_METER = 22;
 Character.RESTITUTION = 0.75;
+Character.FRICTION = 2;
 Character.WIDTH = 24;
 Character.HEIGHT = 40;
 
