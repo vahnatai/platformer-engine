@@ -64,6 +64,9 @@ class Character extends Entity {
 	}
 	walkRight() {
 		this.setVelocity(Character.MOVE_SPEED, this.velocity.y);
+
+	stopWalking() {
+		this.setVelocity(0, 0);
 	}
 
 	stop() {

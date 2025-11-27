@@ -23,7 +23,7 @@ class LevelControlListener extends ControlListener {
 			game.jump();
 		};
 
-		const onStop = (direction) => {
+		const onStopWalking = (direction) => {
 			if (direction === 'left') {
 				this.isWalkingLeft = false;
 			}
@@ -35,8 +35,8 @@ class LevelControlListener extends ControlListener {
 			}
 		};
 
-		this.addKeyListener('left', 'ArrowLeft', document, () => onWalk('left'), () => onStop('left'));
-		this.addKeyListener('right', 'ArrowRight', document, () => onWalk('right'), () => onStop('right'));
+		this.addKeyListener('left', 'ArrowLeft', document, () => onWalk('left'), () => onStopWalking('left'));
+		this.addKeyListener('right', 'ArrowRight', document, () => onWalk('right'), () => onStopWalking('right'));
 
 		this.addKeyListener('exit', 'Escape', document, () => exitLevel());
 

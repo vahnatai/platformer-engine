@@ -61,7 +61,7 @@ class Game {
 	}
 
 	stopWalking() {
-		this.character.stop();
+		this.character.stopWalking();
 	}
 }
 
