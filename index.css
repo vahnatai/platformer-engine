@@ -10,16 +10,30 @@ body {
 	color: white;
 }
 
+.wrapper {
+	width: 850px;
+	margin: 0 auto;
+}
+
 #gameCanvas {
 	margin: 0 auto;
 	display: block;
 }
 
-.controlPanel {
-	width: 400px;
+#gameMenu {
+	color: black;
+	border: thin solid black;
+	background-color: gray;
 	margin: 0 auto;
-	padding: 70px;
-	display: block;
+	width: 400px;
+	padding: 15px;
+    position: relative;
+    left: 0px;
+    top: -430px;
+}
+
+.hidden {
+	visibility: hidden;
 }
 
 .volumeControl {

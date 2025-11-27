@@ -3,9 +3,10 @@ import Objective from '../model/entity/Objective.js';
 import View from './View.js';
 
 class LevelView extends View {
-	constructor(window, canvas, level, character) {
+	constructor(window, canvas, game, level, character) {
 		super(window, canvas);
 		this.camera = new EntityCamera(character, canvas.width, canvas.height);
+		this.game = game;
 		this.level = level;
 		this.character = character;
 		this.sprites = {
@@ -182,6 +183,13 @@ class LevelView extends View {
 		this.debug.lastY = this.character.position.y;
 	}
 
+	renderPauseGray() {
+		this.context.globalAlpha = 0.70;
+		this.context.fillStyle = '#dbdbdb';
+		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+		this.context.globalAlpha = 1;
+	}
+
 	render(debugMode = false) {
 		super.render();
 
@@ -191,6 +199,7 @@ class LevelView extends View {
 		this.renderObjective();
 		this.renderCharacter(debugMode);
 		if (debugMode) this.renderDebugOverlay();
+		if (this.game.isPaused) this.renderPauseGray();
 	}
 }
 

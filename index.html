@@ -5,31 +5,34 @@
 		<link rel="stylesheet" href="index.css">
 	</head>
 	<body>
-		<canvas id="gameCanvas" width="800" height="600"></canvas>
-		<div class="controlPanel">
-			<div>
-				<label for="musicVolumeInput">Music Volume:</label>
-				<input id="musicVolumeInput" type="range" class="volumeControl" min="0" max="2" value="1" list="tickmarks" step="0.01" />
-				<datalist id="tickmarks">
-					<option value="0" label="0%"></option>
-					<option value="1" label="100%"></option>
-					<option value="2" label="200%"></option>
-				</datalist>
-			</div>
+		<div class="wrapper">
+			<canvas id="gameCanvas" width="800" height="600"></canvas>
+			<div id="gameMenu" class="hidden">
+				<h2>MENU</h2>
+				<div>
+					<label for="musicVolumeInput">Music Volume:</label>
+					<input id="musicVolumeInput" type="range" class="volumeControl" min="0" max="2" value="1" list="tickmarks" step="0.01" />
+					<datalist id="tickmarks">
+						<option value="0" label="0%"></option>
+						<option value="1" label="100%"></option>
+						<option value="2" label="200%"></option>
+					</datalist>
+				</div>
 
-			<div>
-				<label for="fxVolumeInput">FX Volume:</label>
-				<input id="fxVolumeInput" type="range" class="volumeControl" min="0" max="2" value="1" list="tickmarks" step="0.01" />
-				<datalist id="tickmarks">
-					<option value="0" label="0%"></option>
-					<option value="1" label="100%"></option>
-					<option value="2" label="200%"></option>
-				</datalist>
-			</div>
+				<div>
+					<label for="fxVolumeInput">FX Volume:</label>
+					<input id="fxVolumeInput" type="range" class="volumeControl" min="0" max="2" value="1" list="tickmarks" step="0.01" />
+					<datalist id="tickmarks">
+						<option value="0" label="0%"></option>
+						<option value="1" label="100%"></option>
+						<option value="2" label="200%"></option>
+					</datalist>
+				</div>
 
-			<div>
-				<label for="debugInput">Debug Mode</label>
-				<input id="debugInput" type="checkbox" />
+				<div>
+					<label for="debugInput">Debug Mode</label>
+					<input id="debugInput" type="checkbox" />
+				</div>
 			</div>
 		</div>
 	</body>

@@ -1,7 +1,8 @@
 import ControlListener from './ControlListener.js';
+import debounce from './lib/debounce.js';
 
 class LevelControlListener extends ControlListener {
-	constructor(document, game, onAction, exitLevel) {
+	constructor(document, game, engine, onAction, exitLevel) {
 		super(document);
 
 		this.isWalkingLeft = false;
@@ -35,12 +36,19 @@ class LevelControlListener extends ControlListener {
 			}
 		};
 
+		const toggleHideMenu = debounce(
+			() => engine.toggleHideMenu(),
+			25
+		);
+
 		this.addKeyListener('left', 'ArrowLeft', document, () => onWalk('left'), () => onStopWalking('left'));
 		this.addKeyListener('right', 'ArrowRight', document, () => onWalk('right'), () => onStopWalking('right'));
 
 		this.addKeyListener('exit', 'Escape', document, () => exitLevel());
 
 		this.addKeyListener('jump', 'Space', document, () => onJump());
+
+		this.addKeyListener('menu', 'KeyM', document, () => toggleHideMenu());
 	}
 }
 

@@ -8,9 +8,10 @@ import MapView from '../ui/MapView.js';
 import SoundEngine from './SoundEngine.js';
 
 class GameEngine {
-	constructor (window, document, canvas, musicVolumeInput, fxVolumeInput, debugInput) {
+	constructor (window, document, canvas, gameMenu, musicVolumeInput, fxVolumeInput, debugInput) {
 		this.document = document;
 		this.canvas = canvas;
+		this.gameMenu = gameMenu;
 		this.game = new Game(() => this.exitToMap());
 		this.mapView = new MapView(window, canvas, this.game.world, this.game.character);
 		this.view = new IntroView(window, canvas);
@@ -76,12 +77,14 @@ class GameEngine {
 		if (!level) {
 			return;
 		}
-		this.view = new LevelView(this.window, this.canvas, level, this.game.character);
+		this.view = new LevelView(this.window, this.canvas, this.game, level, this.game.character);
 		this.controlListener.stop();
 		this.controlListener = new LevelControlListener(
 			document,
 			this.game,
+			this,
 			(actionName) => {
+				if (this.game.isPaused) return;
 				if (actionName == 'jump' && this.game.character.isOnGround) {
 					this.soundEngine.playFX('JUMP');
 				}
@@ -91,6 +94,11 @@ class GameEngine {
 		this.controlListener.start();
 		this.soundEngine.stopAll();
 		this.soundEngine.playMusic('LEVEL_1', true);
+	}
+
+	toggleHideMenu() {
+		this.game.isPaused = !this.game.isPaused;
+		this.gameMenu.classList.toggle('hidden');
 	}
 
 	exitToMap() {

@@ -7,9 +7,11 @@ class Game {
 		const {level, x: startX, y: startY} = this.world.getStartPosition();
 		this.character = new Character(startX, startY, level);
 		this.currentLevel = null;
+		this.isPaused = false;
 	}
 
 	simulate(dt) {
+		if (this.isPaused) return;
 		if (this.currentLevel) {
 			this.character.computeLevelMovement(this.currentLevel, dt);
 		}
@@ -49,18 +51,22 @@ class Game {
 	}
 
 	walkLeft() {
+		if (this.isPaused) return;
 		this.character.walkLeft();
 	}
 
 	walkRight() {
+		if (this.isPaused) return;
 		this.character.walkRight();
 	}
 
 	jump() {
+		if (this.isPaused) return;
 		this.character.jump();
 	}
 
 	stopWalking() {
+		if (this.isPaused) return;
 		this.character.stopWalking();
 	}
 }
