@@ -61,16 +61,16 @@ class KeyInputListener {
 	stop() {
 		this.document.removeEventListener('keydown', this.onKeyDown);
 		this.document.removeEventListener('keyup', this.onKeyUp);
+		this.isPressed = false;
+		this.isReleased = false;
 	}
 
 	checkPressed() {
 		if (this.isPressed) {
 			this.onPressed();
-			this.isPressed = false;
 		}
 		if (this.isReleased) {
 			this.onReleased();
-			this.isReleased = false;
 		}
 	}
 }
