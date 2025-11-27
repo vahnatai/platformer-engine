@@ -43,6 +43,7 @@ class KeyInputListener {
 			}
 			this.isPressed = true;
 			this.isReleased = false;
+			event.preventDefault();
 		};
 		this.onKeyUp = (event) => {
 			if (event.code !== this.keyCode) {
@@ -50,6 +51,7 @@ class KeyInputListener {
 			}
 			this.isPressed = false;
 			this.isReleased = true;
+			event.preventDefault();
 		};
 	}
 
