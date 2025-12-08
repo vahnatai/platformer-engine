@@ -1,3 +1,4 @@
+import CharacterEvent from '../../engine/event/CharacterEvent.js';
 import Entity from './Entity.js';
 import RectangleShape from '../shape/RectangleShape.js';
 import Vector from '../Vector.js';
@@ -10,6 +11,9 @@ class Character extends Entity {
 		this.destination = null;
 
 		this.isOnGround = false;
+		this.wasOnGround = false;
+
+		this.eventListeners = [];
 	}
 
 	setPosition(x, y) {
@@ -56,6 +60,7 @@ class Character extends Entity {
 		if (this.isOnGround) {
 			this.setVelocity(this.velocity.x, -Character.JUMP_SPEED);
 			this.isOnGround = false;
+			this.emit(new CharacterEvent(CharacterEvent.JUMP, this));
 		}
 	}
 
@@ -106,6 +111,13 @@ class Character extends Entity {
 		this.velocity = this.velocity.add(this.acceleration.multiplyScalar(ms/1000)); // scalar speed mult like position has??
 	}
 
+	computeOnGroundStatus() {
+		if (this.isOnGround && !this.wasOnGround) {
+			this.emit(new CharacterEvent(CharacterEvent.LAND, this));
+		}
+		this.wasOnGround = this.isOnGround;
+	}
+
 	computeWorldMovement(ms) {
 		if (this.destination) {
 			this.computePosition(null, ms, false);
@@ -124,6 +136,7 @@ class Character extends Entity {
 
 	computeLevelMovement(level, ms) {
 		this.computePosition(level, ms, true);
+		this.computeOnGroundStatus();
 	}
 
 	getBoundingShape() {
@@ -172,6 +185,21 @@ class Character extends Entity {
 	onCollideEntity(entity, onTop = false) {
 		if (onTop) {
 			this.isOnGround = true;
+		}
+	}
+
+	emit(event) {
+		this.eventListeners.forEach(listener => listener.handleEvent(event));
+	}
+
+	addEventListener(listener) {
+		this.eventListeners.push(listener);
+	}
+
+	removeEventListener(listener) {
+		const index = this.eventListeners.indexOf(listener);
+		if (index !== -1) {
+			this.eventListeners.splice(index, 1);
 		}
 	}
 }

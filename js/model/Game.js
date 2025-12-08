@@ -1,4 +1,5 @@
 import Character from './entity/Character.js';
+import CharacterEventListener from '../engine/event/CharacterEventListener.js';
 import World from './World.js';
 
 class Game {
@@ -22,6 +23,7 @@ class Game {
 
 	enterCurrentLevel() {
 		const level = this.character.getCurrentLevel();
+		this.character.addEventListener(new CharacterEventListener(this.character));
 		if (!level) return;
 		this.character.setAcceleration(0, Character.GRAVITY * Character.PIXELS_PER_METER);
 		this.currentLevel = level;
