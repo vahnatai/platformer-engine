@@ -40,6 +40,7 @@ class SoundEngine {
 		};
 		this.effects = {
 			JUMP: await this.loadAudio('effects/jump.wav'),
+			LAND: await this.loadAudio('effects/land.wav'),
 		};
 	}
 
