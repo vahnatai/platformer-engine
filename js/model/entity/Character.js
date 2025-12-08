@@ -202,6 +202,10 @@ class Character extends Entity {
 			this.eventListeners.splice(index, 1);
 		}
 	}
+
+	removeAllEventListeners() {
+		this.eventListeners.forEach(listener => this.removeEventListener(listener));
+	}
 }
 
 Character.MOVE_SPEED = 100;

@@ -1,4 +1,5 @@
 import Game from '../model/Game.js';
+import GameEventListener from './event/GameEventListener.js';
 import IntroControlListener from './controls/IntroControlListener.js';
 import IntroView from '../ui/IntroView.js';
 import LevelControlListener from './controls/LevelControlListener.js';
@@ -48,6 +49,7 @@ class GameEngine {
 		let lastTime = 0;
 
 		this.controlListener.start();
+		this.game.addEventListener(new GameEventListener(this.game));
 
 		await this.soundEngine.loadAllSounds();
 		this.soundEngine.playMusic('INTRO', true);
