@@ -204,7 +204,7 @@ class Character extends Entity {
 	}
 
 	removeAllEventListeners() {
-		this.eventListeners.forEach(listener => this.removeEventListener(listener));
+		this.eventListeners.length = 0;
 	}
 }
 
