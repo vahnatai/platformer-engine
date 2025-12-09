@@ -16,7 +16,7 @@ class GameEngine {
 		this.game = new Game(() => this.exitToMap());
 		this.mapView = new MapView(window, canvas, this.game.world, this.game.character);
 		this.view = new IntroView(window, canvas);
-		this.mapControlListener = new MapControlListener(document, this.game, () => this.enterLevel());
+		this.mapControlListener = new MapControlListener(document, this.game, this, () => this.enterLevel());
 		this.controlListener = new IntroControlListener(document, this.game, () => this.exitToMap());
 		
 		musicVolumeInput.value = localStorage.musicVolume ? JSON.parse(localStorage.musicVolume) : GameEngine.DEFAULT_GAIN;
