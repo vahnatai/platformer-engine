@@ -154,7 +154,7 @@ class Character extends Entity {
 		var collided = false;
             
 		const bShape = this.getBoundingShape();
-		if (bShape.position.x <= minX && this.velocity.x < 0) { 
+		if (bShape.position.x - bShape.width/2 <= minX && this.velocity.x < 0) { 
 			this.acceleration.x = 0;
 			this.velocity.x = 0;
 			this.position.x = minX + bShape.width/2; 
@@ -165,7 +165,7 @@ class Character extends Entity {
 			this.position.x = maxX - bShape.width/2;
 			collided = true;
 		}
-		if (bShape.position.y <= minY && this.velocity.y < 0) {
+		if (bShape.position.y - bShape.height/2 <= minY && this.velocity.y < 0) {
 			this.velocity.y = 0;
 			this.position.y = minY + bShape.height/2;
 			collided = true;
