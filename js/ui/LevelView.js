@@ -216,7 +216,7 @@ class LevelView extends View {
 
 	renderPauseGray() {
 		this.context.globalAlpha = 0.70;
-		this.context.fillStyle = '#dbdbdb';
+		this.context.fillStyle = '#111111ff';
 		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 		this.context.globalAlpha = 1;
 	}
