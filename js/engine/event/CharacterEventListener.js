@@ -5,8 +5,7 @@ class CharacterEventListener {
 		this.gameEngine = gameEngine;
 		this.typeMap = {
 			'land': () => {
-				// handle land event
-				console.log('Character has landed.');
+				this.gameEngine.soundEngine.playFX('LAND');
 			},
 			'jump': () => {
 				this.gameEngine.soundEngine.playFX('JUMP');
