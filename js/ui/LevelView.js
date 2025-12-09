@@ -179,6 +179,12 @@ class LevelView extends View {
 		this.context.fillText('On Ground: ' + JSON.stringify(this.character.isOnGround), x, y+90);
 		this.context.fillText('DX: ' + JSON.stringify(this.debug.lastX - this.character.position.x), x, y+105);
 		this.context.fillText('DY: ' + JSON.stringify(this.debug.lastY - this.character.position.y), x, y+120);
+
+		if (window.performance?.memory) {
+			const memory = window.performance.memory;
+			this.context.fillText(`JS Heap: ${(memory.usedJSHeapSize / 1048576).toFixed(2)} MB / ${(memory.totalJSHeapSize / 1048576).toFixed(2)} MB`, x, y+135);
+		}
+
 		this.debug.lastX = this.character.position.x;
 		this.debug.lastY = this.character.position.y;
 	}
