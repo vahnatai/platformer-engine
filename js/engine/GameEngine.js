@@ -49,7 +49,7 @@ class GameEngine {
 		let lastTime = 0;
 
 		this.controlListener.start();
-		this.game.addEventListener(new GameEventListener(this.game));
+		this.game.addEventListener(new GameEventListener(this.game, this));
 
 		await this.soundEngine.loadAllSounds();
 		this.soundEngine.playMusic('INTRO', true);

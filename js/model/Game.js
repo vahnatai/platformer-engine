@@ -1,7 +1,6 @@
 import Character from './entity/Character.js';
-import CharacterEventListener from '../engine/event/CharacterEventListener.js';
-import World from './World.js';
 import GameEvent from '../engine/event/GameEvent.js';
+import World from './World.js';
 
 class Game {
 	constructor(onLevelCompletion) {
@@ -28,7 +27,6 @@ class Game {
 		if (!level) return;
 		this.currentLevel = level;
 		this.emit(new GameEvent(GameEvent.LEVEL_ENTERED, this));
-		this.character.addEventListener(new CharacterEventListener(this.character));
 
 		const {x, y} = level.getStartCoords();
 		this.character.setPosition(x, y);
@@ -43,7 +41,6 @@ class Game {
 		this.character.setAcceleration(0, 0);
 		this.character.setPosition(x, y);
 		this.character.stop();
-		this.character.removeAllEventListeners();
 		this.currentLevel = null;
 	}
 
