@@ -46,6 +46,8 @@ class LevelControlListener extends ControlListener {
 		this.addKeyListener('jump', 'Space', document, () => onJump());
 
 		this.addKeyListener('menu', 'Escape', document, () => toggleHideMenu());
+
+		this.addKeyListener('exit', 'KeyE', document, () => engine.exitToMap()); // for debug purposes
 	}
 }
 
