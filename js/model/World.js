@@ -114,7 +114,7 @@ class World {
 				paths: [
 					{
 						destination: '1-7',
-						isSecret: true,
+						isSecret: false,
 						directionForth: 'left',
 						directionBack: 'up',
 					},
