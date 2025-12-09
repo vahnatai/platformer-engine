@@ -160,30 +160,46 @@ class LevelView extends View {
 	renderDebugOverlay() {
 		const x = 30;
 		const y = 30;
-		const width = 350;
-		const height = 140;
+		const width = 380;
 
+		// layout
+		const paddingX = 12;
+		const paddingY = 12;
+		const lineHeight = 20;
+
+		// build lines so we can size the background dynamically
+		const lines = [
+			'Level: ' + JSON.stringify(this.level.id),
+			'Start Position: ' + JSON.stringify(this.level.getStartCoords()),
+			'Position: ' + JSON.stringify(this.character.position.round()),
+			'Velocity: ' + JSON.stringify(this.character.velocity.round()),
+			'Acceleration: ' + JSON.stringify(this.character.acceleration.round()),
+			'On Ground: ' + JSON.stringify(this.character.isOnGround),
+			'DX: ' + JSON.stringify(this.debug.lastX - this.character.position.x),
+			'DY: ' + JSON.stringify(this.debug.lastY - this.character.position.y),
+		];
+
+		if (window.performance?.memory) {
+			const memory = window.performance.memory;
+			lines.push(`JS Heap: ${(memory.usedJSHeapSize / 1048576).toFixed(2)} MB / ${(memory.totalJSHeapSize / 1048576).toFixed(2)} MB`);
+		}
+
+		const height = paddingY * 2 + lines.length * lineHeight;
+
+		// render background
+		this.context.lineWidth = 1;
 		this.context.globalAlpha = 0.75;
 		this.context.fillStyle = '#AAAAAA';
 		this.context.fillRect(x, y, width, height);
 		this.context.globalAlpha = 1;
 
-		this.context.lineWidth = 1;
-		this.context.font = '15px monospace';
+		// render text lines
 		this.context.fillStyle = '#000000';
-		this.context.fillText('Level: ' + JSON.stringify(this.level.id), x, y+15);
-		this.context.fillText('Start Position: ' + JSON.stringify(this.level.getStartCoords()), x, y+30);
-		this.context.fillText('Position: ' + JSON.stringify(this.character.position.round()), x, y+45);
-		this.context.fillText('Velocity: ' + JSON.stringify(this.character.velocity.round()), x, y+60);
-		this.context.fillText('Acceleration: ' + JSON.stringify(this.character.acceleration.round()), x, y+75);
-		this.context.fillText('On Ground: ' + JSON.stringify(this.character.isOnGround), x, y+90);
-		this.context.fillText('DX: ' + JSON.stringify(this.debug.lastX - this.character.position.x), x, y+105);
-		this.context.fillText('DY: ' + JSON.stringify(this.debug.lastY - this.character.position.y), x, y+120);
+		this.context.font = '15px monospace';
 
-		if (window.performance?.memory) {
-			const memory = window.performance.memory;
-			this.context.fillText(`JS Heap: ${(memory.usedJSHeapSize / 1048576).toFixed(2)} MB / ${(memory.totalJSHeapSize / 1048576).toFixed(2)} MB`, x, y+135);
-		}
+		lines.forEach((line, i) => { // render each line with spacing and inner margin
+			this.context.fillText(line, x + paddingX, y + paddingY + (i * lineHeight) + (lineHeight - 6));
+		});
 
 		this.debug.lastX = this.character.position.x;
 		this.debug.lastY = this.character.position.y;
