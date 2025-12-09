@@ -98,12 +98,23 @@ class GameEngine {
 		this.soundEngine.playMusic('LEVEL_1', true);
 	}
 
+	showMenu() {
+		this.game.isPaused = true;
+		this.gameMenu.classList.remove('hidden');
+	}
+
+	hideMenu() {
+		this.game.isPaused = false;
+		this.gameMenu.classList.add('hidden');
+	}
+
 	toggleHideMenu() {
 		this.game.isPaused = !this.game.isPaused;
 		this.gameMenu.classList.toggle('hidden');
 	}
 
 	exitToMap() {
+		this.hideMenu();
 		this.game.exitCurrentLevel();
 		this.view = this.mapView;
 		this.controlListener.stop();
