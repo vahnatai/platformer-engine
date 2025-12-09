@@ -90,8 +90,7 @@ class GameEngine {
 				if (actionName == 'jump' && this.game.character.isOnGround) {
 					this.soundEngine.playFX('JUMP');
 				}
-			},
-			() => this.exitToMap()
+			}
 		);
 		this.controlListener.start();
 		this.soundEngine.stopAll();
