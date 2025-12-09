@@ -158,30 +158,39 @@ class LevelView extends View {
 	}
 
 	renderDebugOverlay() {
+		// layout
 		const x = 30;
 		const y = 30;
 		const width = 380;
-
-		// layout
 		const paddingX = 12;
 		const paddingY = 12;
 		const lineHeight = 20;
 
+		// grab some data
+		const {x: startX, y: startY} = this.level.getStartCoords();
+		const {x: posX, y: posY} = this.character.position.round();
+		const {x: velX, y: velY} = this.character.velocity.round();
+		const {x: accX, y: accY} = this.character.acceleration.round();
+		const dx = this.debug.lastX - this.character.position.x;
+		const dy = this.debug.lastY - this.character.position.y;
+
 		// build lines so we can size the background dynamically
 		const lines = [
-			'Level: ' + JSON.stringify(this.level.id),
-			'Start Position: ' + JSON.stringify(this.level.getStartCoords()),
-			'Position: ' + JSON.stringify(this.character.position.round()),
-			'Velocity: ' + JSON.stringify(this.character.velocity.round()),
-			'Acceleration: ' + JSON.stringify(this.character.acceleration.round()),
-			'On Ground: ' + JSON.stringify(this.character.isOnGround),
-			'DX: ' + JSON.stringify(this.debug.lastX - this.character.position.x),
-			'DY: ' + JSON.stringify(this.debug.lastY - this.character.position.y),
+			'Level: ' + this.level.id,
+			'Start Position: ' + startX + ', ' + startY,
+			'Position: ' + posX + ', ' + posY,
+			'Velocity: ' + velX + ', ' + velY,
+			'Acceleration: ' + accX + ', ' + accY,
+			'On Ground: ' + this.character.isOnGround,
+			'DX: ' + dx,
+			'DY: ' + dy,
 		];
 
 		if (window.performance?.memory) {
 			const memory = window.performance.memory;
-			lines.push(`JS Heap: ${(memory.usedJSHeapSize / 1048576).toFixed(2)} MB / ${(memory.totalJSHeapSize / 1048576).toFixed(2)} MB`);
+			const heapUsed = (memory.usedJSHeapSize / 1048576).toFixed(2);
+			const heapTotal = (memory.totalJSHeapSize / 1048576).toFixed(2);
+			lines.push(`JS Heap: ${heapUsed} MB / ${heapTotal} MB`);
 		}
 
 		const height = paddingY * 2 + lines.length * lineHeight;
