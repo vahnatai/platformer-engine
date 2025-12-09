@@ -9,8 +9,7 @@ class CharacterEventListener {
 				console.log('Character has landed.');
 			},
 			'jump': () => {
-				// handle jump event
-				console.log('Character has jumped.');
+				this.gameEngine.soundEngine.playFX('JUMP');
 			}
 		};
 	}

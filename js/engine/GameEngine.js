@@ -84,13 +84,7 @@ class GameEngine {
 		this.controlListener = new LevelControlListener(
 			document,
 			this.game,
-			this,
-			(actionName) => {
-				if (this.game.isPaused) return;
-				if (actionName == 'jump' && this.game.character.isOnGround) {
-					this.soundEngine.playFX('JUMP');
-				}
-			}
+			this
 		);
 		this.controlListener.start();
 		this.soundEngine.stopAll();

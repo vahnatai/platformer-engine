@@ -2,7 +2,7 @@ import ControlListener from './ControlListener.js';
 import debounce from './lib/debounce.js';
 
 class LevelControlListener extends ControlListener {
-	constructor(document, game, engine, onAction) {
+	constructor(document, game, engine) {
 		super(document);
 
 		this.isWalkingLeft = false;
@@ -20,7 +20,6 @@ class LevelControlListener extends ControlListener {
 		};
 
 		const onJump = () => {
-			onAction('jump');
 			game.jump();
 		};
 
