@@ -13,4 +13,6 @@ Wander a map screen and enter levels, search those levels for objectives and pro
 ### Controls:
 - Spacebar: Enter levels, skip the intro, jump
 - Arrow keys: Directions
+- Esc: Pause/Menu
+- E: Quit a level
 
