@@ -12,6 +12,10 @@ class Game {
 		this.eventListeners = [];
 	}
 
+	async loadWorldData() {
+		await Promise.all(Object.values(this.world.levels).map(level => level.loadDataFile()));
+	}
+
 	simulate(dt) {
 		if (this.isPaused) return;
 		if (this.currentLevel) {

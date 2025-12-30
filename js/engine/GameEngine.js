@@ -18,7 +18,7 @@ class GameEngine {
 		this.view = new IntroView(window, canvas);
 		this.mapControlListener = new MapControlListener(document, this.game, this, () => this.enterLevel());
 		this.controlListener = new IntroControlListener(document, this.game, () => this.exitToMap());
-		
+
 		musicVolumeInput.value = localStorage.musicVolume ? JSON.parse(localStorage.musicVolume) : GameEngine.DEFAULT_GAIN;
 		fxVolumeInput.value = localStorage.fxVolume ? JSON.parse(localStorage.fxVolume) : GameEngine.DEFAULT_GAIN;
 
@@ -51,6 +51,8 @@ class GameEngine {
 		this.controlListener.start();
 		this.game.addEventListener(new GameEventListener(this.game, this));
 
+		await this.game.loadWorldData();
+
 		await this.soundEngine.loadAllSounds();
 		this.soundEngine.playMusic('INTRO', true);
 
@@ -71,10 +73,10 @@ class GameEngine {
 				clearInterval(interval);
 				console.error(error);
 			}
-		}, framerate);   
+		}, framerate);
 	}
 
-	enterLevel() {
+	async enterLevel() {
 		const level = this.game.enterCurrentLevel();
 		if (!level) {
 			return;

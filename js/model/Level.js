@@ -15,13 +15,26 @@ class Level {
 		this.onCompletion = onCompletion;
 	}
 
+	async loadDataFile() {
+		if (['1-1', '1-2'].includes(this.id)) {
+			const response = await fetch(`/js/model/level/${this.id}.json`);
+			const levelData = await response.json();
+			this.geometry = levelData.geometry.map(([x, y, width]) => new Platform(x, y, width));
+			console.log('loaded geometry:', this.geometry);
+		}
+	}
+
 	getGeometry() {
+		if (this.geometry) {
+			return this.geometry;
+		}
+
 		return [
 			new Platform(200, 500, 100),
 			new Platform(700, 500, 100),
 			new Platform(1200, 500, 100),
 			new Platform(1700, 500, 100),
-			
+
 			new Platform(450, 375, 100),
 			new Platform(1000, 375, 100),
 			new Platform(1500, 375, 100),

@@ -20,7 +20,7 @@ class MapControlListener extends ControlListener {
 		this.addKeyListener('up', 'ArrowUp', document, () => onDirection('up'));
 		this.addKeyListener('right', 'ArrowRight', document, () => onDirection('right'));
 		this.addKeyListener('down', 'ArrowDown', document, () => onDirection('down'));
-		this.addKeyListener('choose', 'Space', document, () => enterLevel());
+		this.addKeyListener('choose', 'Space', document, async () => enterLevel());
 		this.addKeyListener('menu', 'Escape', document, () => toggleHideMenu());
 	}
 }
